@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="记录笔记">
+  <meta name="author" content="罗远祥">
+  <meta name="keywords" content="忆往惜,罗远祥">
+  <title>Java并发编程了解一下 ~ 忆往惜</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+</head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>忆往惜</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/2.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期三, 十一月 6日 2019, 12:04 中午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    4.9k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      17 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><img src="https://img.luoyuanxiangvip.com/blogImg/1563332775154.jpg" srcset="undefined" alt="u=2054456090,108871660fm=26gp=0.jpg"></p>
+<p>在Java并发编程中，经常遇到多个线程访问同一个 共享资源 ，这时候作为开发者必须考虑<strong>如何维护数据一致性，这就是Java锁机制(线程同步)的来源。</strong></p>
+<h3 id="Java提供了多种多线程锁机制的实现方式，常见的有："><a href="#Java提供了多种多线程锁机制的实现方式，常见的有：" class="headerlink" title="Java提供了多种多线程锁机制的实现方式，常见的有："></a>Java提供了多种多线程锁机制的实现方式，常见的有：</h3><ol>
+<li><p>synchronized</p>
+</li>
+<li><p>ReentrantLock</p>
+</li>
+<li><p>Semaphore</p>
+</li>
+<li><p>AtomicInteger等</p>
+</li>
+</ol>
+<p>每种机制都有优缺点与各自的适用场景，必须熟练掌握他们的特点才能在Java多线程应用开发时得心应手。</p>
+<h1 id="4种Java线程锁"><a href="#4种Java线程锁" class="headerlink" title="4种Java线程锁"></a>4种Java线程锁</h1><h3 id="1-synchronized"><a href="#1-synchronized" class="headerlink" title="1. synchronized"></a>1. synchronized</h3><p>在Java中<code>synchronized</code>关键字被常用于维护数据一致性。</p>
+<p><code>synchronized</code>机制是给共享资源上锁，只有拿到锁的线程才可以访问共享资源，这样就可以强制使得对共享资源的访问都是顺序的。</p>
+<p>Java开发人员都认识<code>synchronized</code>，使用它来实现多线程的同步操作是非常简单的，只要在需要同步的对方的方法、类或代码块中加入该关键字，它能够保证在同一个时刻最多只有一个线程执行同一个对象的同步代码，可保证修饰的代码在执行过程中不会被其他线程干扰。</p>
+<p>使用<code>synchronized</code>修饰的代码具有原子性和可见性，在需要进程同步的程序中使用的频率非常高，可以满足一般的进程同步要求。</p>
+<ol>
+<li><p>原子性：原子，即一个不可再被分割的颗粒。在Java中原子性指的是一个或多个操作要么全部执行成功要么全部执行失败。</p>
+</li>
+<li><p>有序性：程序执行的顺序按照代码的先后顺序执行。（处理器可能会对指令进行重排序）</p>
+</li>
+<li><p>可见性：当多个线程访问同一个变量时，如果其中一个线程对其作了修改，其他线程能立即获取到最新的值。</p>
+</li>
+</ol>
+<p><code>synchronized</code>实现的机理依赖于软件层面上的JVM，因此其性能会随着Java版本的不断升级而提高。到了Java1.6，<code>synchronized</code>进行了很多的优化，有适应自旋、锁消除、锁粗化、轻量级锁及偏向锁等，效率有了本质上的提高。在之后推出的Java1.7与1.8中，均对该关键字的实现机理做了优化。需要说明的是，当线程通过<code>synchronized</code>等待锁时是不能被<code>Thread.interrupt()</code>中断的，因此程序设计时必须检查确保合理，否则可能会造成线程死锁的尴尬境地。最后，尽管Java实现的锁机制有很多种，并且有些锁机制性能也比<code>synchronized</code>高，但还是强烈推荐在多线程应用程序中使用该关键字，因为实现方便，后续工作由JVM来完成，可靠性高。只有在确定锁机制是当前多线程程序的性能瓶颈时，才考虑使用其他机制，如<code>ReentrantLock</code>等。</p>
+<h3 id="2-ReentrantLock"><a href="#2-ReentrantLock" class="headerlink" title="2. ReentrantLock"></a>2. ReentrantLock</h3><p>可重入锁，顾名思义，这个锁可以被线程多次重复进入进行获取操作。<code>ReentantLock</code>继承接口<code>Lock</code>并实现了接口中定义的方法，除了能完成<code>synchronized</code>所能完成的所有工作外，还提供了诸如可响应中断锁、可轮询锁请求、定时锁等避免多线程死锁的方法。<code>Lock</code>实现的机理依赖于特殊的CPU指定，可以认为不受JVM的约束，并可以通过其他语言平台来完成底层的实现。在并发量较小的多线程应用程序中，<code>ReentrantLock</code>与<code>synchronized</code>性能相差无几，但在高并发量的条件下，synchronized性能会迅速下降几十倍，而<code>ReentrantLock</code>的性能却能依然维持一个水准。因此建议在高并发量情况下使用<code>ReentrantLock</code>。</p>
+<p>ReentrantLock引入两个概念：<strong>公平锁与非公平锁。</strong></p>
+<p>公平锁指的是锁的分配机制是公平的，通常先对锁提出获取请求的线程会先被分配到锁。反之，JVM按随机、就近原则分配锁的机制则称为不公平锁。</p>
+<p><code>ReentrantLock</code>在构造函数中提供了是否公平锁的初始化方式，默认为非公平锁。这是因为，非公平锁实际执行的效率要远远超出公平锁，除非程序有特殊需要，否则最常用非公平锁的分配机制。<code>ReentrantLock</code>通过方法<code>lock()</code>与<code>unlock()</code>来进行加锁与解锁操作，与<code>synchronized</code>会被JVM自动解锁机制不同，<code>ReentrantLock</code>加锁后需要手动进行解锁。为了避免程序出现异常而无法正常解锁的情况，使用<code>ReentrantLock</code>必须在<code>finally</code>控制块中进行解锁操作。通常使用方式如下所示：</p>
+<pre><code class="java">Lock lock = new ReentrantLock();
+try {
+lock.lock();
+//...进行任务操作5 
+}
+finally {
+lock.unlock();
+}</code></pre>
+<h3 id="3-Semaphore"><a href="#3-Semaphore" class="headerlink" title="3. Semaphore"></a>3. Semaphore</h3><p>上述两种锁机制类型都是<strong>互斥锁</strong>，学过操作系统的都知道，互斥是进程同步关系的一种特殊情况，相当于只存在一个临界资源，因此同时最多只能给一个线程提供服务。但是，在实际复杂的多线程应用程序中，可能存在多个临界资源，这时候我们可以借助<code>Semaphore</code>信号量来完成多个临界资源的访问。<code>Semaphore</code>基本能完成<code>ReentrantLock</code>的所有工作，使用方法也与之类似，通过<code>acquire()</code>与<code>release()</code>方法来获得和释放临界资源。经实测，<code>Semaphone.acquire()</code>方法默认为可响应中断锁，与<code>ReentrantLock.lockInterruptibly()</code>作用效果一致，也就是说在等待临界资源的过程中可以被<code>Thread.interrupt()</code>方法中断。此外，<code>Semaphore</code>也实现了可轮询的锁请求与定时锁的功能，除了方法名<code>tryAcquire</code>与<code>tryLock</code>不同，其使用方法与<code>ReentrantLock</code>几乎一致。<code>Semaphore</code>也提供了公平与非公平锁的机制，也可在构造函数中进行设定。<code>Semaphore</code>的锁释放操作也由手动进行，因此与<code>ReentrantLock</code>一样，为避免线程因抛出异常而无法正常释放锁的情况发生，释放锁的操作也必须在<code>finally</code>代码块中完成。</p>
+<h3 id="4-AtomicInteger"><a href="#4-AtomicInteger" class="headerlink" title="4. AtomicInteger"></a>4. AtomicInteger</h3><p> 首先说明，此处<code>AtomicInteger</code>是一系列相同类的代表之一，常见的还有<code>AtomicLong、AtomicLong</code>等，他们的实现原理相同，区别在与运算对象类型的不同。我们知道，在多线程程序中，诸如++i 或 i++等运算不具有原子性，是不安全的线程操作之一。通常我们会使用<code>synchronized</code>将该操作变成一个原子操作，但JVM为此类操作特意提供了一些同步类，使得使用更方便，且使程序运行效率变得更高。通过相关资料显示，通常<code>AtomicInteger</code>的性能是<code>ReentantLock</code>的好几倍。</p>
+<h1 id="Java线程锁总结"><a href="#Java线程锁总结" class="headerlink" title="Java线程锁总结"></a>Java线程锁总结</h1><h3 id="1-synchronized-1"><a href="#1-synchronized-1" class="headerlink" title="1. synchronized"></a>1. synchronized</h3><p>在资源竞争不是很激烈的情况下，偶尔会有同步的情形下，<code>synchronized</code>是很合适的。原因在于，编译程序通常会尽可能的进行优化<code>synchronize</code>，另外可读性非常好。</p>
+<h3 id="2-ReentrantLock-1"><a href="#2-ReentrantLock-1" class="headerlink" title="2. ReentrantLock"></a>2. ReentrantLock</h3><p>在资源竞争不激烈的情形下，性能稍微比<code>synchronized</code>差点点。但是当同步非常激烈的时候，<code>synchronized</code>的性能一下子能下降好几十倍，而<code>ReentrantLock</code>确还能维持常态。</p>
+<p><strong>高并发量情况下使用<code>ReentrantLock</code>。</strong></p>
+<h3 id="3-Atomic"><a href="#3-Atomic" class="headerlink" title="3. Atomic"></a>3. Atomic</h3><p>不激烈情况下，性能比<code>synchronized</code>略逊，而激烈的时候，也能维持常态。激烈的时候，<code>Atomic</code>的性能会优于<code>ReentrantLock</code>一倍左右。</p>
+<p>但是其有一个缺点，就是只能同步一个值，一段代码中只能出现一个<code>Atomic</code>的变量，多于一个同步无效,因为他不能在多个<code>Atomic</code>之间同步。</p>
+<p>所以，我们写同步的时候，优先考虑<code>synchronized</code>，如果有特殊需要，再进一步优化。<code>ReentrantLock</code>和<code>Atomic</code>如果用的不好，不仅不能提高性能，还可能带来灾难。</p>
+<h1 id="Thread-类的常用函数及功能"><a href="#Thread-类的常用函数及功能" class="headerlink" title="Thread 类的常用函数及功能:"></a>Thread 类的常用函数及功能:</h1><h3 id="1-sleep"><a href="#1-sleep" class="headerlink" title="1. sleep():"></a>1. sleep():</h3><p><code>sleep</code>是<code>Thread</code>的静态方法，使当前的正在执行线程处于停滞状态，<code>sleep()</code>使线程进入堵塞状态，同时不会释放所资源，<code>sleep</code>可使优先级低的线程得到执行的机会，当然也可以让同优先级和高优先级的线程有执行的机会。</p>
+<h3 id="2-wait"><a href="#2-wait" class="headerlink" title="2. wait():"></a>2. wait():</h3><p><code>wait</code>使当前线程处于等待状态，会释放当前的锁资源，使用<code>wait()</code>的时候要注意：</p>
+<p><code>wait()、notify()、notifyAll()</code>都必须在<code>synchronized</code>中执行，否则会抛出异常 </p>
+<p><code>wait()、notify()、notifyAll()</code>都是属于超类<code>Object</code>的方法 一个对象只有一个锁（对象锁和类锁还是有区别的） </p>
+<p><code>wait()</code>和<code>sleep()</code>区别：<br>a) <code>wait()</code>可以不指定时间，<code>sleep()</code>必须指定时间<br>b) <code>wait()</code>会释放当前锁资源,<code>sleep()</code>不能够释放锁资源<br>c) <code>wait()</code>是来自<code>Object</code>类中,<code>sleep()</code>是来自<code>Thread</code>类</p>
+<h3 id="3-join"><a href="#3-join" class="headerlink" title="3. join():"></a>3. join():</h3><p><code>join</code>是让当前线程等待调用<code>join</code>的线程运行完<code>run</code>方法，可以指定时间，若指定了时间，则等待指定时间，即便调用<code>join</code>的线程没运行完<code>run</code>方法，当前线程也会继续往下运行；若未指定时间，则当前线程一直等待，直到<code>join</code>的线程运行完<code>run</code>方法。</p>
+<h3 id="4-yield-："><a href="#4-yield-：" class="headerlink" title="4. yield()："></a>4. yield()：</h3><p><code>yield</code>也是<code>Thread</code>的静态方法，<code>yield</code>的本质就是将当前线程重新放入抢占CPU时间的<strong>队列</strong>中，当前线程愿意让出CPU的使用权,可以让其他线程继续执行，但是线程调度器可能会停止当前线程继续执行,也可能会让该线程继续执行。 </p>
+<p>并且与线程优先级并无关系，优先级高的不一定先执行。线程的优先级将该线程的重要性传递给线程调度器，调度器将倾向于让优先权最高的线程先执行.然后这并不意味值优先权较低的线程将得不到执行。优先级较低的线程仅仅是执行的频率较低。</p>
+<h3 id="5-stop"><a href="#5-stop" class="headerlink" title="5. stop():"></a>5. stop():</h3><p>可以停止正在执行得线程，这样的方法不安全，不建议使用。他会解除线程获取的所有锁定，如果线程处于一种不连贯的状态，其他线程有可能在那种状态下检查和修改他们，很难找到问题的所在。 </p>
+<h3 id="6-suspend"><a href="#6-suspend" class="headerlink" title="6. suspend():"></a>6. suspend():</h3><p>容易发生死锁，调用<code>suspend()</code>的时候，目标线程会停止，但是却仍然有之前获取的锁定。此时，其他线程都不能有访问线程锁定的资源，除非被<strong>挂起</strong>的线程恢复运行。需要在<code>Thread</code>类中有一个标志。</p>
+<p>若标志指出线程应该挂起，便用<code>wait()</code>命其进入等待状态。若标志指出线程应当恢复，则用一个<code>notify()</code>重新启动线程。</p>
+<h3 id="7-interrupt-："><a href="#7-interrupt-：" class="headerlink" title="7. interrupt()："></a>7. interrupt()：</h3><p><code>interrupt()</code>不会中断一个正在运行的线程。这一方法实际上完成的是：在线程受到阻塞时抛出一个中断信号，线程就得以退出阻塞的状态。<br>如果线程被<code>Object.wait，Thread.join，Thread.sleep</code>三种方法之一阻塞，那么，它将接收到一个中断异（InterruptedException），从而提早地终结被阻塞状态。<br>如果线程没有被阻塞，这时调用<code>interrupt()</code>将不起作用。</p>
+<h3 id="8-setPriority"><a href="#8-setPriority" class="headerlink" title="8. setPriority():"></a>8. setPriority():</h3><p>线程分配时间片的多少就决定线程使用处理的多少，刚好对应线程优先级别这个概念。可以通过int priority()，里边可以填1-10，默认为5，10最高。</p>
+<h1 id="Java中的volatile"><a href="#Java中的volatile" class="headerlink" title="Java中的volatile"></a>Java中的volatile</h1><p><code>volatile</code>是Java提供的一种轻量级的同步机制，在并发编程中，它也扮演着比较重要的角色。同<code>synchronized</code>相比（<code>synchronized</code>通常称为重量级锁），<code>volatile</code>更轻量级，相比使用<code>synchronized</code>所带来的庞大开销，使用<code>synchronized</code> 虽然可以解决多线程安全问题，但弊端也很明显：加锁后多个线程需要判断锁，较为消耗资源。</p>
+<p><code>volatile</code>关键字作用</p>
+<ul>
+<li>内存可见性</li>
+<li>禁止指令重排</li>
+</ul>
+<p>所谓可见性，是指当一条线程修改了共享变量的值，新值对于其他线程来说是可以立即得知的。java虚拟机有自己的内存模型（Java Memory Model，JMM），JMM可以屏蔽掉各种硬件和操作系统的内存访问差异，以实现让java程序在各种平台下都能达到一致的内存访问效果。JMM决定一个线程对共享变量的写入何时对另一个线程可见，JMM定义了线程和主内存之间的抽象关系：共享变量存储在主内存(Main Memory)中，每个线程都有一个私有的本地内存（Local Memory），本地内存保存了被该线程使用到的主内存的副本拷贝，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存中的变量。这三者之间的交互关系如下：<br><img src="https://user-gold-cdn.xitu.io/2019/7/7/16bcb272344a798b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" srcset="undefined" alt="关系图"></p>
+<p>需要注意的是，JMM是个抽象的内存模型，所以所谓的本地内存，主内存都是抽象概念，并不一定就真实的对应cpu缓存和物理内存。Java 中存在一种原则——先行发生原则（happens-before）。其表示两个事件结果之间的关系：如果一个事件发生在另一个事件之间，其结果必须体现。<code>volatile</code>的内存可见性就体现了该原则：对于一个<code>volatile</code>变量的写操作先行发生于后面对这个变量的读操作。将一个共享变量声明为<code>volatile</code>后，会有以下效应：</p>
+<ol>
+<li>当写一个volatile变量时，JMM会把该线程对应的本地内存中的变量强制刷新到主内存中去；</li>
+<li>这个写会操作会导致其他线程中的缓存无效。</li>
+</ol>
+<p>但是需要注意的是，我们一直在拿volatile和synchronized做对比，仅仅是因为这两个关键字在某些内存语义上有共通之处，volatile并不能完全替代synchronized，它依然是个轻量级锁，在很多场景下，volatile并不能胜任。</p>
+<p>例如：当多个线程都对某一 volatile 变量（int a=0）进行 count++ 操作时，由于 count++ 操作并不是原子性操作，当线程 A 执行 count++ 后，A 工作内存其副本的值为 1，但线程执行时间到了，主内存的值仍为 0 ；线程 B又来执行 count++后并将值更新到主内存，主内存此时的值为 1；然后线程 A 继续执行将值更新到主内存为 1，它并不知道线程 B 对变量进行了修改，也就是没有判断主内存的值是否发生改变，故最终结果为 1，但理论上 count++ 两次，值应该为 2。 </p>
+<p>所以要使用 volatile 的内存可见性特性的话得满足两个条件：</p>
+<p>能确保只有单一的线程对共享变量的只进行修改。 </p>
+<p>变量不需要和其他状态变量共同参与不变的约束条件。</p>
+<p>所谓重排序，是指编译器和处理器为了优化程序性能而对指令序列进行排序的一种手段。但是重排序也需要遵守一定规则：</p>
+<p><strong>1. 重排序操作不会对存在数据依赖关系的操作进行重排序。</strong></p>
+<p>比如：a=1;b=a; 这个指令序列，由于第二个操作依赖于第一个操作，所以在编译时和处理器运行时这两个操作不会被重排序。</p>
+<p><strong>2. 重排序是为了优化性能，但是不管怎么重排序，单线程下程序的执行结果不能被改变</strong></p>
+<p>比如：a=1;b=2;c=a+b这三个操作，第一步（a=1)和第二步(b=2)由于不存在数据依赖关系，所以可能会发生重排序，但是c=a+b这个操作是不会被重排序的，因为需要保证最终的结果一定是c=a+b=3。</p>
+<p>重排序在单线程模式下是一定会保证最终结果的正确性，但是在多线程环境下，问题就出来了。指令重排虽说可以优化程序的执行效率，但在多线程问题上会影响结果。那么有什么解决办法呢？答案是内存屏障。</p>
+<p>内存屏障是一种屏障指令，使 CPU 或编译器对屏障指令之前和之后发出的内存操作执行一个排序的约束。 </p>
+<p>四种类型：LoadLoad 屏障、StoreStore 屏障、LoadStore 屏障、StoreLoad 屏障。（Load 代表读取指令、Store 代表写入操作） </p>
+<p>在 volatile 变量上的体现：</p>
+<p>（JVM 执行操作） 在每个 volatile 写入操作前插入 StoreStore 屏障； </p>
+<p>在写操作后插入 StoreLoad 屏障； </p>
+<p>在读操作前插入 LoadLoad 屏障；</p>
+<p>在读操作后插入 LoadStore 屏障；</p>
+<p>简单总结下，volatile是一种轻量级的同步机制，它主要有两个特性：一是保证共享变量对所有线程的可见性；二是禁止指令重排序优化。同时需要注意的是，volatile对于单个的共享变量的读/写具有原子性，但是像num++这种复合操作，volatile无法保证其原子性。</p>
+<h1 id="可重入锁与不可重入锁"><a href="#可重入锁与不可重入锁" class="headerlink" title="可重入锁与不可重入锁"></a>可重入锁与不可重入锁</h1><p>所谓重入锁，指的是以线程为单位，当一个线程获取对象锁之后，这个线程可以再次获取本对象上的锁，而其他的线程是不可以的。</p>
+<p>synchronized 和 ReentrantLock 都是可重入锁。</p>
+<p>可重入锁的意义在于防止死锁。</p>
+<p>实现原理是通过为每个锁关联一个请求计数器和一个占有它的线程。当计数为0时，认为锁是未被占有的；线程请求一个未被占有的锁时，JVM将记录锁的占有者，并且将请求计数器置为1 。</p>
+<p>如果同一个线程再次请求这个锁，计数将递增；</p>
+<p>每次占用线程退出同步块，计数器值将递减。直到计数器为0,锁被释放。</p>
+<p>关于父类和子类的锁的重入:子类覆写了父类的synchonized方法，然后调用父类中的方法，此时如果没有重入的锁，那么这段代码将产生死锁（很好理解吧）。</p>
+<p>例子：<br>比如说A类中有个方法</p>
+<pre><code class="java">public synchronized methodA1(){
+
+methodA2();
+
+}
+
+而且public synchronized methodA2(){
+
+//具体操作
+
+}</code></pre>
+<p>也是A类中的同步方法，当当前线程调用A类的对象methodA1同步方法，如果其他线程没有获取A类的对象锁，那么当前线程就获得当前A类对象的锁，然后执行methodA1同步方法，方法体中调用methodA2同步方法，当前线程能够再次获取A类对象的锁，而其他线程是不可以的，这就是可重入锁。</p>
+<p>不可重入锁：</p>
+<pre><code class="java">public class Lock
+{    
+    private boolean isLocked = false;    
+    public synchronized void lock() throws InterruptedException
+    {        
+        while(isLocked){                
+            wait();
+        }
+        isLocked = true;
+    }
+    public synchronized void unlock()
+    {
+        isLocked = false;
+        notify();
+    }
+}</code></pre>
+<p>使用该锁：</p>
+<pre><code class="java">public class Count{
+    Lock lock = new Lock();
+    public void print(){
+        lock.lock();
+        doAdd();
+        lock.unlock();
+    }
+    public void doAdd(){
+        lock.lock();        //do something
+        lock.unlock();
+    }
+}</code></pre>
+<p>当前线程执行print()方法首先获取lock，接下来执行doAdd()方法就无法执行doAdd()中的逻辑，必须先释放锁。这个例子很好的说明了不可重入锁。</p>
+<blockquote>
+<p>勇敢坚毅真正之才智乃刚毅之志向。 —— 拿破仑</p>
+</blockquote>
+<blockquote>
+<p>出处：<a href="https://juejin.im/post/5cf3ad4c518825623928f10e" target="_blank" rel="noopener">Ai布可思咦</a></p>
+</blockquote>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF">后端技术</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/java">java</a>
+                
+              </span>
+            
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
+  
+  <br>
+
+
+
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+    <!-- Baidu Analytics -->
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?89ac1bd01e8a7652f680e1dc54bd76e7";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+    <!-- Google Analytics -->
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-151767202-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script>
+      var _mtac = {};
+      (function () {
+        var mta = document.createElement("script");
+        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500702138");
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+      })();
+    </script>
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <style type="text/css"></style>
+    <script
+      type="text/javascript">var cnzz_protocol = (("https:" === document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1278179048'%3E%3C/span%3E%3Cscript src='"
+        + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1278179048' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  
+
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Java并发编程了解一下&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 100,
+      loop: true,
+      backSpeed: 100
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "left",
+      visible: "true",
+      
+      icon: "❡"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
