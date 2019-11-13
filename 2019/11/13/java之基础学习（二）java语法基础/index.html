@@ -1,0 +1,84 @@
+<!-- build time:Wed Nov 13 2019 15:45:18 GMT+0800 (GMT+08:00) --><!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico"><link rel="icon" type="image/png" href="/img/favicon.ico"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="description" content="记录笔记"><meta name="author" content="罗远祥"><meta name="keywords" content="忆往惜,罗远祥"><title>Java之基础学习（二）java语法基础 ~ 忆往惜</title><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"><link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css"><link rel="stylesheet" href="/lib/prettify/tomorrow.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"><meta name="generator" content="Hexo 4.0.0"></head><body><header style="height:80vh"><nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"><div class="container"><a class="navbar-brand" href="/">&nbsp;<strong>忆往惜</strong>&nbsp;</a> <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><div class="animated-icon"><span></span><span></span><span></span></div></button><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav ml-auto text-center"><li class="nav-item"><a class="nav-link" href="/">首页</a></li><li class="nav-item"><a class="nav-link" href="/archives/">归档</a></li><li class="nav-item"><a class="nav-link" href="/categories/">分类</a></li><li class="nav-item"><a class="nav-link" href="/tags/">标签</a></li><li class="nav-item"><a class="nav-link" href="/about/">关于</a></li><li class="nav-item" id="search-btn"><a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a></li></ul></div></div></nav><div class="view intro-2" id="background" style="background:url(/img/2.jpg) no-repeat center center;background-size:cover;background-attachment:fixed"><div class="full-bg-img"><div class="mask rgba-black-light flex-center"><div class="container text-center white-text fadeInUp"><span class="h2" id="subtitle"></span><br><p class="mt-3"><i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp; 星期三, 十一月 13日 2019, 3:24 下午</p><p>&nbsp;<i class="far fa-chart-bar"></i> <span class="post-count">2.2k 字 </span>&nbsp; &nbsp;<i class="far fa-clock"></i> <span class="post-count">8 分钟 </span>&nbsp; &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp; <span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span> 次 </span>&nbsp;</p></div></div></div></div></header><main><div class="container-fluid"><div class="row"><div class="d-none d-lg-block col-lg-2"></div><div class="col-lg-8 nopadding-md"><div class="py-5 z-depth-3" id="board"><div class="post-content mx-auto" id="post"><div class="markdown-body"><ul><li><p>1，关键字：其实就是某种语言赋予了特殊含义的单词。<br>保留字：其实就是还没有赋予特殊含义，但是准备日后要使用过的单词。</p></li><li><p>2，标示符：其实就是在程序中自定义的名词。比如类名，变量名，函数名。包含 0-9、a-z、$、_ ；<br>注意：</p><p>1），数字不可以开头。</p><p>2），不可以使用关键字。</p></li><li><p>3，常量：是在程序中的不会变化的数据。</p></li><li><p>4，变量：其实就是内存中的一个存储空间，用于存储常量数据。<br>作用：方便于运算。因为有些数据不确定。所以确定该数据的名词和存储空间。<br>特点：变量空间可以重复使用。</p></li></ul><p>什么时候定义变量？只要是数据不确定的时候，就定义变量。</p><p>变量空间的开辟需要什么要素呢？</p><ul><li>1，这个空间要存储什么数据？数据类型。</li><li>2，这个空间叫什么名字啊？变量名称。</li><li>3，这个空间的第一次的数据是什么？ 变量的初始化值。</li></ul><p>变量的作用域和生存期:</p><p>变量的作用域：</p><pre><code>作用域从变量定义的位置开始，到该变量所在的那对大括号结束；</code></pre><p>生命周期：</p><pre><code>变量从定义的位置开始就在内存中活了；
+变量到达它所在的作用域的时候就在内存中消失了；</code></pre><p>数据类型：</p><pre><code>1）：基本数据类型：byte、short、int、long、float、double、char、boolean
+2）：引用数据类型: 数组、类、接口。</code></pre><p>级别从低到高为：byte,char,short(这三个平级)–&gt;int–&gt;float–&gt;long–&gt;double</p><p>自动类型转换：从低级别到高级别，系统自动转的；</p><p>强制类型转换：什么情况下使用?把一个高级别的数赋给一个别该数的级别低的变量；</p><p>运算符号：</p><pre><code>1）、算术运算符。
+    + - * / %   %:任何整数模2不是0就是1，所以只要改变被模数就可以实现开关运算。
+    +:连接符。
+    ++,--
+2）、赋值运算符。
+    =  += -= *= /= %=
+3）、比较运算符。
+    特点：该运算符的特点是：运算完的结果，要么是true，要么是false。
+4）、逻辑运算符。
+    &amp;  |  ^  !   &amp;&amp;   ||
+    逻辑运算符除了 !  外都是用于连接两个boolean类型表达式。
+    &amp;: 只有两边都为true结果是true。否则就是false。
+    |:只要两边都为false结果是false，否则就是true
+    ^:异或：和或有点不一样。
+         两边结果一样，就为false。
+         两边结果不一样，就为true.
+    &amp; 和 &amp;&amp;区别： &amp; ：无论左边结果是什么，右边都参与运算。
+                  &amp;&amp;:短路与，如果左边为false，那么右边不参数与运算。
+    | 和|| 区别：|：两边都运算。
+                ||：短路或，如果左边为true，那么右边不参与运算。
+5）、位运算符:用于操作二进制位的运算符。
+    &amp;  |  ^
+    &lt;&lt;  &gt;&gt;   &gt;&gt;&gt;(无符号右移)
+练习：对两个变量的数据进行互换。不需要第三方变量。
+        int a  = 3,b = 5;--&gt;b = 3,a = 5;
+        a = a + b; a = 8;
+        b = a - b; b = 3;
+        a = a - b; a = 5;
+        a = a ^ b;//
+        b = a ^ b;//b = a ^ b ^ b = a
+        a = a ^ b;//a = a ^ b ^ a = b;
+    练习：高效的算出 2*8 = 2&lt;&lt;3;</code></pre><ul><li><p>5，语句。</p><p>If switch do while while for</p><p>这些语句什么时候用？</p><p>1）、当判断固定个数的值的时候，可以使用if，也可以使用switch。</p><p>但是建议使用switch，效率相对较高。</p></li></ul><pre><code class="java">switch(变量){
+   case 值:要执行的语句;break;
+   …
+   default:要执行的语句;
+}</code></pre><p>工作原理：用小括号中的变量的值依次和case后面的值进行对比，和哪个case后面的值相同了<br>就执行哪个case后面的语句，如果没有相同的则执行default后面的语句；</p><p>细节：</p><pre><code>1）：break是可以省略的，如果省略了就一直执行到遇到break为止；
+2）：switch 后面的小括号中的变量应该是byte,char,short,int四种类型中的一种；
+3）：default可以写在switch结构中的任意位置；如果将default语句放在了第一行，则不管expression与case中的value是否匹配，程序会从default开始执行直到第一个break出现。
+4）、当判断数据范围，获取判断运算结果boolean类型时，需要使用if。
+5）、当某些语句需要执行很多次时，就用循环结构。
+    while和for可以进行互换。
+    区别在于：如果需要定义变量控制循环次数。建议使用for。因为for循环完毕，变量在内存中释放。</code></pre><p>break:作用于switch ，和循环语句，用于跳出，或者称为结束。</p><p>break语句单独存在时，下面不要定义其他语句，因为执行不到，编译会失败。当循环嵌套时，break只跳出当前所在循环。要跳出嵌套中的外部循环，只要给循环起名字即可，这个名字称之为标号。</p><p>continue:只作用于循环结构，继续循环用的。</p><p>作用：结束本次循环，继续下次循环。该语句单独存在时，下面不可以定义语句，执行不到。</p><p>6，函 数：为了提高代码的复用性，可以将其定义成一个单独的功能，该功能的体现就是java中的函数。函数就是体现之一。</p><p>java中的函数的定义格式：</p><pre><code>修饰符 返回值类型 函数名(参数类型 形式参数1，参数类型 形式参数1，…){
+    执行语句；
+    return 返回值；
+}</code></pre><p>当函数没有具体的返回值时，返回的返回值类型用void关键字表示。</p><p>如果函数的返回值类型是void时，return语句可以省略不写的，系统会帮你自动加上。</p><p>return的作用：结束函数。结束功能。</p><p>如何定义一个函数？</p><pre><code>函数其实就是一个功能，定义函数就是实现功能，通过两个明确来完成：
+1）、明确该功能的运算完的结果，其实是在明确这个函数的返回值类型。
+2）、在实现该功能的过程中是否有未知内容参与了运算，其实就是在明确这个函数的参数列表(参数类型&amp;参数个数)。</code></pre><p>函数的作用：</p><pre><code>1）、用于定义功能。
+2）、用于封装代码提高代码的复用性。</code></pre><p>注意：函数中只能调用函数，不能定义函数。</p><pre><code>主函数：
+    1）、保证该类的独立运行。
+    2）、因为它是程序的入口。
+    3）、因为它在被jvm调用。</code></pre><p>函数定义名称是为什么呢？</p><pre><code>答：1）、为了对该功能进行标示，方便于调用。
+    2）、为了通过名称就可以明确函数的功能，为了增加代码的阅读性。</code></pre><p>重载的定义是：在一个类中，如果出现了两个或者两个以上的同名函数，只要它们的参数的个数，或者参数的类型不同，即可称之为该函数重载了。</p><p>如何区分重载：当函数同名时，只看参数列表。和返回值类型没关系。</p><p>7，数 组：用于存储同一类型数据的一个容器。好处：可以对该容器中的数据进行编号，从0开始。数组用于封装数据，就是一个具体的实体。</p><p>如何在java中表现一个数组呢？两种表现形式。</p><pre><code>1）、元素类型[] 变量名 = new 元素类型[元素的个数]；
+2）、元素类型[] 变量名 = {元素1，元素2...}；
+元素类型[] 变量名 = new 元素类型[]{元素1，元素2...}；</code></pre><hr><p>二分查找法。必须有前提：数组中的元素要有序。</p><pre><code class="java">public static int halfSeach_2(int[] arr,int key){
+        int min,max,mid;
+        min = 0;
+        max = arr.length-1;
+        mid = (max+min)&gt;&gt;1; //(max+min)/2;
+        while(arr[mid]!=key){
+            if(key&gt;arr[mid]){
+                min = mid + 1;
+            }
+            else if(key&lt;arr[mid])
+                max = mid - 1;
+            if(max&lt;min)
+                return -1;
+            mid = (max+min)&gt;&gt;1;
+        }
+        return mid;
+    }</code></pre><hr><p>java分了5片内存。</p><p>1：寄存器。2：本地方法区。3：方法区。4：栈。5：堆。</p><p>栈：存储的都是局部变量 ( 函数中定义的变量，函数上的参数，语句中的变量 )；</p><pre><code>只要数据运算完成所在的区域结束，该数据就会被释放。</code></pre><p>堆：用于存储数组和对象，也就是实体。啥是实体啊？就是用于封装多个数据的。</p><p>1：每一个实体都有内存首地址值。</p><p>2：堆内存中的变量都有默认初始化值。因为数据类型不同，值也不一样。</p><p>3：垃圾回收机制。</p><blockquote><p>知人者智，自知者明。胜人者有力，自胜者强。——老子</p></blockquote><hr></div><br><div><p><span><i class="iconfont icon-inbox"></i> <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF">后端技术</a> &nbsp; </span>&nbsp;&nbsp; <span><i class="iconfont icon-tag"></i> <a class="hover-with-bg" href="/tags/Java">Java</a></span></p></div></div></div></div><div class="d-none d-lg-block col-lg-2 toc-container"><div id="toc"><p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p><div id="tocbot"></div></div></div></div></div><div class="col-lg-7 mx-auto nopadding-md"><div class="container comments mx-auto" id="comments"></div></div></main><a class="z-depth-1" id="scroll-top-button" href="#" role="button"><i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i></a><div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable modal-lg" role="document"><div class="modal-content"><div class="modal-header text-center"><h4 class="modal-title w-100 font-weight-bold">搜索</h4><button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body mx-3"><div class="md-form mb-5"><input type="text" id="local-search-input" class="form-control validate"><label data-error="x" data-success="v" for="local-search-input">关键词</label></div><div class="list-group" id="local-search-result"></div></div></div></div></div><footer class="mt-5"><div class="text-center py-3"><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><b>Fluid</b></a><br>&nbsp;<span id="busuanzi_container_site_pv">总访问量 <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp; &nbsp;<span id="busuanzi_container_site_uv">总访客数 <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;<br></div></footer><script src="/lib/jquery/jquery.min.js"></script><script src="/lib/popper/popper.min.js"></script><script src="/lib/bootstrap/js/bootstrap.min.js"></script><script src="/lib/mdbootstrap/js/mdb.min.js"></script><script src="/js/main.js"></script><script src="/js/lazyload.js"></script><script src="/lib/tocbot/tocbot.min.js"></script><script src="/js/post.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script>var _hmt=_hmt||[];!function(){var e=document.createElement("script");e.src="https://hm.baidu.com/hm.js?89ac1bd01e8a7652f680e1dc54bd76e7";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}()</script><script>!function(e,t,a,n,c,s,o){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,s=t.createElement(a),o=t.getElementsByTagName(a)[0],s.async=1,s.src=n,o.parentNode.insertBefore(s,o)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-151767202-1","auto"),ga("send","pageview")</script><script>var _mtac={};!function(){var t=document.createElement("script");t.src="//pingjs.qq.com/h5/stats.js?v2.0.4",t.setAttribute("name","MTAH5"),t.setAttribute("sid","500702138");var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script><style type="text/css"></style><script type="text/javascript">var cnzz_protocol="https:"===document.location.protocol?"https://":"http://";document.write(unescape("%3Cspan id='cnzz_stat_icon_1278179048'%3E%3C/span%3E%3Cscript src='"+cnzz_protocol+"s4.cnzz.com/z_stat.php%3Fid%3D1278179048' type='text/javascript'%3E%3C/script%3E"))</script><script src="/lib/prettify/prettify.min.js"></script><script>$(document).ready(function(){$("pre").addClass("prettyprint  "),prettyPrint()})</script><script src="/lib/typed/typed.min.js"></script><script>var typed=new Typed("#subtitle",{strings:["  ","Java之基础学习（二）java语法基础&nbsp;"],cursorChar:"_",typeSpeed:100,loop:!0,backSpeed:100});typed.stop(),$(document).ready(function(){$(".typed-cursor").addClass("h2"),typed.start()})</script><script src="/lib/anchor/anchor.min.js"></script><script>anchors.options = {
+      placement: "left",
+      visible: "true",
+      
+      icon: "❡"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))</script><script src="/js/local-search.js"></script><script>var path="/local-search.xml",inputArea=document.querySelector("#local-search-input");inputArea.onclick=function(){getSearchFile(path),this.onclick=null}</script><script src="/lib/fancybox/jquery.fancybox.min.js"></script><script>$("#post img:not(.no-zoom img, img[no-zoom])").each(function(){var t=document.createElement("a");$(t).attr("data-fancybox","images"),$(t).attr("href",$(this).attr("src")),$(this).wrap(t)})</script><script>!function(){var t=document.createElement("script"),s=window.location.protocol.split(":")[0];"https"===s?t.src="https://zz.bdstatic.com/linksubmit/push.js":t.src="http://push.zhanzhang.baidu.com/push.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script></body></html><!-- rebuild by neat -->
