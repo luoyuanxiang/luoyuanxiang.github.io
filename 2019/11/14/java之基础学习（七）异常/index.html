@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://img.luoyuanxiangvip.com/index.jpg">
+  <link rel="icon" type="image/png" href="https://img.luoyuanxiangvip.com/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="记录笔记">
+  <meta name="author" content="忆往昔">
+  <meta name="keywords" content="忆往惜,记录笔记">
+  <title>java之基础学习（七）异常 - 忆往惜</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <div class="top-scroll-bar"></div>
+<nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://img.luoyuanxiangvip.com/index.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2019-11-14 11:08">
+                    2019年11月14日 上午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    2.6k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    28
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p><img src="https://img.luoyuanxiangvip.com/blogImg/1573632593161.jpg" srcset="/img/loading.gif" alt="6.jpg"></p>
+<h3 id="异-常"><a href="#异-常" class="headerlink" title="异 常"></a>异 常</h3><p>异常：就是不正常。程序在运行时出现的不正常情况。其实就是程序中出现的问题。这个问题按照面向对象思想进行描述，并封装成了对象。因为问题的产生有产生的原因、有问题的名称、有问题的描述等多个属性信息存在。当出现多属性信息最方便的方式就是将这些信息进行封装。异常就是java按照面向对象的思想将问题进行对象封装。这样就方便于操作问题以及处理问题。</p>
+<p>出现的问题有很多种，比如角标越界，空指针等都是。就对这些问题进行分类。而且这些问题都有共性内容比如：每一个问题都有名称，同时还有问题描述的信息，问题出现的位置，所以可以不断的向上抽取。形成了异常体系。</p>
+<pre><code class="hljs java">java.lang.Throwable：
+Throwable：可抛出的。
+    |--Error：错误，一般情况下，不编写针对性的代码进行处理，通常是jvm发生的，需要对程序进行修正。
+    |--Exception：异常，可以有针对性的处理方式</code></pre>
+<p>无论是错误还是异常，它们都有具体的子类体现每一个问题，它们的子类都有一个共性，就是都以父类名才作为子类的后缀名。</p>
+<p>这个体系中的所有类和对象都具备一个独有的特点；就是可抛性。<br>可抛性的体现：就是这个体系中的类和对象都可以被throws和throw两个关键字所操作。</p>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span>  <span class="hljs-title">ExceptionDemo</span></span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+<span class="hljs-comment">//      byte[] buf = new byte[1024*1024*700];//java.lang.OutOfMemoryError内存溢出错误</span>
+    &#125;
+&#125;</code></pre>
+<p>在开发时，如果定义功能时，发现该功能会出现一些问题，应该将问题在定义功能时标示出来，这样调用者就可以在使用这个功能的时候，预先给出处理方式。</p>
+<p>如何标示呢？通过<code>throws</code>关键字完成，格式：<code>throws 异常类名,异常类名...</code></p>
+<p>这样标示后，调用者，在使用该功能时，就必须要处理，否则编译失败。</p>
+<p>处理方式有两种：1、捕捉；2、抛出。</p>
+<p>对于捕捉：java有针对性的语句块进行处理。</p>
+<pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;
+    需要被检测的代码；
+&#125;
+<span class="hljs-keyword">catch</span>(异常类 变量名)&#123;
+    异常处理代码；
+&#125;
+fianlly&#123;
+    一定会执行的代码；
+&#125;
+<span class="hljs-keyword">catch</span> (Exception e) &#123; <span class="hljs-comment">//e用于接收try检测到的异常对象。</span>
+    System.out.println(<span class="hljs-string">"message:"</span>+e.getMessage());<span class="hljs-comment">//获取的是异常的信息。</span>
+    System.out.println(<span class="hljs-string">"toString:"</span>+e.toString());<span class="hljs-comment">//获取的是异常的名字+异常的信息。</span>
+    e.printStackTrace();<span class="hljs-comment">//打印异常在堆栈中信息；异常名称+异常信息+异常的位置。</span>
+&#125;</code></pre>
+<p>异常处理原则：功能抛出几个异常，功能调用如果进行try处理，需要与之对应的<code>catch</code>处理代码块，这样的处理有针对性，抛几个就处理几个。</p>
+<p>特殊情况：<code>try</code>对应多个<code>catch</code>时，如果有父类的<code>catch</code>语句块，一定要放在下面。</p>
+<p><code>throw</code> 和<code>throws</code>关键字的区别：</p>
+<ol>
+<li><p><code>throw</code>用于抛出异常对象，后面跟的是异常对象；<code>throw</code>用在函数内。</p>
+</li>
+<li><p><code>throws</code>用于抛出异常类，后面跟的异常类名，可以跟多个，用逗号隔开。<code>throws</code>用在函数上。</p>
+</li>
+</ol>
+<p>通常情况：函数内容如果有<code>throw</code>，抛出异常对象，并没有进行处理，那么函数上一定要声明，否则编译失败。但是也有特殊情况。</p>
+<p>异常分两种：</p>
+<ul>
+<li>1：编译时被检查的异常，只要是Exception及其子类都是编译时被检测的异常。</li>
+<li>2：运行时异常，其中Exception有一个特殊的子类RuntimeException，以及RuntimeException的子类是运行异常，也就说这个异常是编译时不被检查的异常。</li>
+</ul>
+<p>编译时被检查的异常和运行时异常的区别：</p>
+<p>编译被检查的异常在函数内被抛出，函数必须要声明，否编译失败。</p>
+<p>声明的原因：是需要调用者对该异常进行处理。</p>
+<p>运行时异常如果在函数内被抛出，在函数上不需要声明。</p>
+<p>不声明的原因：不需要调用者处理，运行时异常发生，已经无法再让程序继续运行，所以，不让调用处理的，直接让程序停止，由调用者对代码进行修正。</p>
+<p>定义异常处理时，什么时候定义<code>try</code>，什么时候定义<code>throws</code>呢？</p>
+<p>功能内部如果出现异常，如果内部可以处理，就用<code>try</code>；</p>
+<p>如果功能内部处理不了，就必须声明出来，让调用者处理。</p>
+<p>自定义异常：当开发时，项目中出现了<code>java</code>中没有定义过的问题时，这时就需要我们按照java异常建立思想，将项目的中的特有问题也进行对象的封装。这个异常，称为自定义异常。</p>
+<p>对于除法运算，0作为除数是不可以的。<code>java</code>中对这种问题用<code>ArithmeticException</code>类进行描述。对于这个功能，在我们项目中，除数除了不可以为0外，还不可以为负数。可是负数的部分<code>java</code>并没有针对描述。所以我们就需要自定义这个异常。</p>
+<p>自定义异常的步骤：</p>
+<ul>
+<li>1：定义一个子类继承<code>Exception</code>或<code>RuntimeException</code>，让该类具备可抛性。</li>
+<li>2：通过<code>throw</code> 或者<code>throws</code>进行操作。</li>
+</ul>
+<p>异常的转换思想：当出现的异常是调用者处理不了的，就需要将此异常转换为一个调用者可以处理的异常抛出。</p>
+<p><code>try  catch  finally</code>的几种结合方式：</p>
+<pre><code class="hljs java">
+<span class="hljs-keyword">try</span>&#123;
+
+    &#125; <span class="hljs-keyword">catch</span>() &#123;
+
+    &#125;
+
+<span class="hljs-keyword">try</span>&#123;
+
+    &#125; <span class="hljs-keyword">finally</span> &#123;
+
+    &#125;
+
+<span class="hljs-keyword">try</span>&#123;
+
+    &#125;<span class="hljs-keyword">catch</span>() &#123;
+
+    &#125;<span class="hljs-keyword">finally</span> &#123;
+
+&#125;</code></pre>
+
+<p>这种情况，如果出现异常，并不处理，但是资源一定关闭，所以<code>try  finally</code>集合只为关闭资源。</p>
+<p>记住：<code>finally</code>很有用，主要用户关闭资源。无论是否发生异常，资源都必须进行关闭。</p>
+<p><code>System.exit(0); //退出jvm，只有这种情况finally不执行。</code></p>
+<p>当异常出现后，在子父类进行覆盖时，有了一些新的特点：</p>
+<ul>
+<li>1：当子类覆盖父类的方法时，如果父类的方法抛出了异常，那么子类的方法要么不抛出异常要么抛出父类异常或者该异常的子类，不能抛出其他异常。</li>
+<li>2：如果父类抛出了多个异常，那么子类在覆盖时只能抛出父类的异常的子集。</li>
+</ul>
+<p><strong>注意：</strong></p>
+<p>如果父类或者接口中的方法没有抛出过异常，那么子类是不可以抛出异常的，如果子类的覆盖的方法中出现了异常，只能<code>try</code>不能<code>throws</code>。<br>如果这个异常子类无法处理，已经影响了子类方法的具体运算，这时可以在子类方法中，通过<code>throw抛出RuntimeException</code>异常或者其子类，这样，子类的方法上是不需要<code>throws</code>声明的。</p>
+<p>常见异常：</p>
+<ul>
+<li>1、脚标越界异常<code>IndexOutOfBoundsException</code>包括数组、字符串；<br>空指针异常<code>NullPointerException</code></li>
+<li>2、类型转换异常：<code>ClassCastException</code></li>
+<li>3、没有这个元素异常：<code>NullPointerException</code></li>
+<li>4、不支持操作异常；</li>
+</ul>
+<p>异常要尽量避免，如果避免不了，需要预先给出处理方式。比如家庭备药，比如灭火器。<br>包：定义包用<code>package</code>关键字。</p>
+<ul>
+<li>1：对类文件进行分类管理。</li>
+<li>2：给类文件提供多层名称空间。</li>
+</ul>
+<p>如果生成的包不在当前目录下，需要最好执行<code>classpath</code>，将包所在父目录定义到<code>classpath</code>变量中即可。</p>
+<p>一般在定义包名时，因为包的出现是为了区分重名的类。所以包名要尽量唯一。怎么保证唯一性呢？可以使用url域名来进行包名称的定义。</p>
+<p><code>package pack;//定义了一个包，名称为pack。 注意：包名的写法规范：所有字母都小写。//package cn.itcast.pack.demo;</code></p>
+<p>类的全名称是 包名.类名</p>
+<pre><code>编译命令：javac –d 位置（.当前路径） java源文件 （就可以自动生成包）</code></pre><p>包是一种封装形式，用于封装类，想要被包以外的程序访问，该类必须<code>public</code>；</p>
+<p>类中的成员，如果被包以外访问，也必须<code>public</code>；</p>
+<p>包与包之间访问可以使用的权限有两种：</p>
+<ul>
+<li>1：<code>public</code></li>
+<li>2：<code>protected</code>：只能是不同包中的子类可以使用的权限。</li>
+</ul>
+<p>总结<code>java</code>中的四种权限：</p>
+<table>
+        <thead>
+        <tr>
+            <th>范围</th>
+            <th>public</th>
+            <th>protected</th>
+            <th>default</th>
+            <th>private</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>同一个类中</td>
+            <td>ok</td>
+            <td>ok</td>
+            <td>ok</td>
+            <td>ok</td>
+        </tr>
+        <tr>
+            <td>同一包中</td>
+            <td>ok</td>
+            <td>ok</td>
+            <td>ok</td>
+            <td>ok</td>
+        </tr>
+        <tr>
+            <td>子类</td>
+            <td>ok</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>不同包中</td>
+            <td>ok</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+<pre><code class="hljs java">Import - 导入：类名称变长，写起来很麻烦。为了简化，使用了一个关键字：<span class="hljs-keyword">import</span>，可以使用这个关键字导入指定包中的类。记住：实际开发时,到的哪个类就导入哪个类，不建议使用*.
+<span class="hljs-keyword">import</span> packa.*;<span class="hljs-comment">//这个仅仅是导入了packa当前目录下的所有的类。不包含子包。</span>
+<span class="hljs-keyword">import</span> packa.abc.*;<span class="hljs-comment">//导入了packa包中的子包abc下的当前的所有类。</span></code></pre>
+
+<p>如果导入的两个包中存在着相同名称的类。这时如果用到该类，必须在代码中指定包名。</p>
+<p>常见的软件包:</p>
+<pre><code class="hljs java">java.lang : language java的核心包，Object System  String Throwable jdk1<span class="hljs-number">.2</span>版本后，该包中的类自动被导入。
+java.awt : 定义的都是用于java图形界面开发的对象。
+javax.swing: 提供所有的windows桌面应用程序包括的控件,比如：Frame , Dialog, Table, List 等等,就是java的图形界面库。
+java.net : 用于java网络编程方面的对象都在该包中。
+java.io : input  output 用于操作设备上数据的对象都在该包中。比如：读取硬盘数据，往硬盘写入数据。
+java.util : java的工具包，时间对象，集合框架。
+java.applet: application+let 客户端java小程序。server+let  --&gt;  servlet 服务端java小程序。</code></pre>
+
+<pre><code class="hljs shell">jar ：java的压缩包，主要用于存储类文件，或者配置文件等。
+命令格式：jar –cf 包名.jar 包目录
+解压缩：jar –xvf 包名.jar
+将jar包目录列表重定向到一个文件中：jar –tf 包名.jar &gt;c:\1.txt</code></pre>
+
+<hr>
+<blockquote>
+<p>合理安排时间，就等于节约时间。——培根</p>
+</blockquote>
+
+            </article>
+            <hr>
+              <br>
+              <!-- 文本结束 -->
+              <div style="text-align:center;color: #1abc9c;font-size:25px;">
+                本文结束
+              </div>
+              <br>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">后端技术</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+<!--                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>-->
+                <div id="post-note">
+                  <div><strong>本文作者：</strong><a href="/">myname</a></div>
+                  <div><strong>本文链接：</strong><a href="https://luoyuanxiangvip.com/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E5%BC%82%E5%B8%B8/">https://luoyuanxiangvip.com/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E5%BC%82%E5%B8%B8/</a></div>
+                  <div><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</div>
+                </div>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/15/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AB%EF%BC%89%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">java之基础学习（八）多线程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E5%A4%9A%E6%80%81/">
+                        <span class="hidden-mobile">java之基础学习（六）多态</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script defer src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link  rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" />
+<script type="text/javascript">
+  var oldLoadAp = window.onload;
+  window.onload = function () {
+    oldLoadAp && oldLoadAp();
+
+    new APlayer({
+      container: document.getElementById('aplayer'),
+      fixed: true,
+      autoplay: 'false' === 'true',
+      loop: 'all',
+      order: 'random',
+      theme: '#b7daff',
+      preload: 'none',
+      audio: [{"name":"月满弦","artist":"刘珂矣","url":"/songs/刘珂矣 - 月满弦.mp3","cover":"http://p1.music.126.net/SKujq5vqqv4KYOVFk7SiRA==/3407386538630284.jpg?param=130y130"}]
+    });
+  }
+</script>
+
+  
+
+  
+
+  <footer class="pt-5">
+  <div class="text-center py-3">
+    <div class="footer-theme">
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener noreferrer">Hexo</a> theme <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener noreferrer">Fluid</a> mod by <a href="https://github.com/julydate/hexo-theme-fluid-mod" target="_blank" rel="nofollow noopener noreferrer">Julydate</a>
+    </div>
+
+    
+      <div class="footer-copyright">
+        
+          ©2020&nbsp;忆往昔
+        
+        
+          
+            <i class="iconfont icon-love"></i>
+          
+          <span>系统稳定运行<span id="runtime"></span>天</span>
+        
+      </div>
+    
+
+    
+      <div class="footer-siteview">
+        
+          <!-- 不蒜子统计PV -->
+          <span id="busuanzi_container_site_pv" style="display:none">
+              被瞅了<span id="busuanzi_value_site_pv"></span>次
+          </span>
+        
+        
+          <!-- 不蒜子统计UV -->
+          <span id="busuanzi_container_site_uv" style="display:none">
+            |
+            被<span id="busuanzi_value_site_uv"></span>人看爆
+          </span>
+        
+      </div>
+    
+
+    
+      <!-- 备案信息 -->
+      <div class="footer-beian">
+        <a href="http://beian.miit.gov.cn/" target="_blank"
+           rel="nofollow noopener noreferrer">蜀ICP备17037993号</a>
+        
+      </div>
+    
+
+    
+      <!-- 一言 -->
+      <div class="footer-hitokoto">
+        <a id="hitokotoa" href="#" target="_blank" rel="nofollow noopener noreferrer">
+          <span id="hitokoto"></span>
+        </a>
+      </div>
+    
+
+  </div>
+</footer>
+<!-- SCRIPTS -->
+
+
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "java之基础学习（七）异常&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+  /*一言API*/
+  $(document).ready(function(){
+    getHitokoto();
+  });
+  function hitokoto(e) {
+    $("#hitokoto").stop().fadeOut(function() {
+      $("#hitokoto").html(JSON.parse(e).hitokoto);
+      var element = document.getElementById('hitokotoa');
+      element.href = "https://hitokoto.cn?id=" + JSON.parse(e).id;
+      $("#hitokoto").stop().fadeIn()
+    })
+  };
+  function getHitokoto() {
+    var e = ["a", "b", "c", "d"],
+    t = document.createElement("script");
+    t.type = "text/javascript";
+    t.id = "hitokotoko_js";
+    t.src = "https://v1.hitokoto.cn/?encode=json&callback=hitokoto&charset=utf-8&cat=" + e[Math.floor(Math.random() * e.length)];
+    $("#hitokoto").append(t);
+  };
+  setInterval(getHitokoto, 1e4);
+  </script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js"></script>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    /*显示博客运行时间*/
+    var blogRunTime = function () {
+      var runTime = document.getElementById("runtime");
+      var runtimeDate = "2019,11,06";
+      var createDate = new Date(runtimeDate);
+      var nowDate = new Date();
+      var dateLine = nowDate.getTime() - createDate.getTime();
+      var runDate = Math.floor(dateLine / (1000 * 60 * 60 * 24));
+      runTime.innerHTML = runDate;
+    };
+    $(document).ready(function(){
+      blogRunTime();
+    });
+  </script>
+
+
+  <script type="text/javascript">
+    /*窗口监视*/
+    var originalTitle = document.title;
+    window.onblur = function(){document.title = "顺溜快回来！！！"};
+    window.onfocus = function(){document.title = originalTitle};
+  </script>
+
+
+
+    
+    
+        <!-- 腾讯统计 -->
+        <script>
+            var _mtac = {};
+            (function() {
+                var mta = document.createElement("script");
+                mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+                mta.setAttribute("name", "MTAH5");
+                mta.setAttribute("sid", "[object Object]");
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(mta, s);
+            })();
+        </script>
+    
+    
+    
+    
+
+
+
+
+</body>
+</html>

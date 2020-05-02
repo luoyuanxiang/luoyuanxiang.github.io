@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://img.luoyuanxiangvip.com/index.jpg">
+  <link rel="icon" type="image/png" href="https://img.luoyuanxiangvip.com/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="记录笔记">
+  <meta name="author" content="忆往昔">
+  <meta name="keywords" content="忆往惜,记录笔记">
+  <title>java之基础学习（六）多态 - 忆往惜</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <div class="top-scroll-bar"></div>
+<nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://img.luoyuanxiangvip.com/index.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2019-11-14 10:52">
+                    2019年11月14日 上午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    2.4k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    27
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p><img src="https://img.luoyuanxiangvip.com/blogImg/1562841221937.jpg" srcset="/img/loading.gif" alt="6.jpg"></p>
+<h3 id="多-态（面向对象特征之一）："><a href="#多-态（面向对象特征之一）：" class="headerlink" title="多 态（面向对象特征之一）："></a>多 态（面向对象特征之一）：</h3><p>函数本身就具备多态性，某一种事物有不同的具体的体现。</p>
+<p>体现：父类引用或者接口的引用指向了自己的子类对象。<code>Animal a = new Cat();</code></p>
+<p>多态的好处：提高了程序的扩展性。</p>
+<p>多态的弊端：当父类引用指向子类对象时，虽然提高了扩展性，但是只能访问父类中具备的方法，不可以访问子类中特有的方法。(前期不能使用后期产生的功能，即访问的局限性)</p>
+<p>多态的前提：</p>
+<pre><code>1：必须要有关系，比如继承、或者实现。
+2：通常会有覆盖操作。</code></pre><p>多态的出现思想上也做着变化：以前是创建对象并指挥对象做事情。有了多态以后，我们可以找到对象的共性类型，直接操作共性类型做事情即可，这样可以指挥一批对象做事情，即通过操作父类或接口实现。</p>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> 毕姥爷</span>&#123;
+    <span class="hljs-keyword">void</span> 讲课()&#123;
+        System.out.println(<span class="hljs-string">"企业管理"</span>);
+    &#125;
+    <span class="hljs-keyword">void</span> 钓鱼()&#123;
+        System.out.println(<span class="hljs-string">"钓鱼"</span>);
+    &#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> 毕老师 <span class="hljs-keyword">extends</span> 毕姥爷</span>&#123;
+    <span class="hljs-keyword">void</span> 讲课()&#123;
+        System.out.println(<span class="hljs-string">"JAVA"</span>);
+    &#125;
+    <span class="hljs-keyword">void</span> 看电影()&#123;
+        System.out.println(<span class="hljs-string">"看电影"</span>);
+    &#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        毕姥爷 x = <span class="hljs-keyword">new</span> 毕老师(); <span class="hljs-comment">//毕老师对象被提升为了毕姥爷类型。</span>
+<span class="hljs-comment">//      x.讲课();</span>
+<span class="hljs-comment">//      x.看电影();  //错误.</span>
+        毕老师 y = (毕老师)x; <span class="hljs-comment">//将毕姥爷类型强制转换成毕老师类型。</span>
+        y.看电影();<span class="hljs-comment">//在多态中，自始自终都是子类对象在做着类型的变化。</span>
+    &#125;
+&#125;</code></pre>
+<p>如果想用子类对象的特有方法，如何判断对象是哪个具体的子类类型呢？</p>
+<p>可以可以通过一个关键字 instanceof ;//判断对象是否实现了指定的接口或继承了指定的类</p>
+<p>格式：<code>&lt;对象 instanceof 类型&gt;</code> ，判断一个对象是否所属于指定的类型。</p>
+<p><code>Student instanceof Person = true;//student继承了person类</code></p>
+<p>多态在子父类中的成员上的体现的特点：</p>
+<ul>
+<li>1，成员变量：在多态中，子父类成员变量同名。<br>  在编译时期：参考的是引用型变量所属的类中是否有调用的成员。（编译时不产生对象，只检查语法错误）<br>  运行时期：也是参考引用型变量所属的类中是否有调用的成员。<br>  简单一句话：无论编译和运行，成员变量参考的都是引用变量所属的类中的成员变量。<br>  再说的更容易记忆一些：成员变量 — 编译运行都看 = 左边。</li>
+<li>2，成员函数。<ol>
+<li>编译时期：参考引用型变量所属的类中是否有调用的方法。</li>
+<li>运行时期：参考的是对象所属的类中是否有调用的方法。</li>
+<li>为什么是这样的呢？因为在子父类中，对于一模一样的成员函数，有一个特性：覆盖。</li>
+<li>简单一句：成员函数，编译看引用型变量所属的类，运行看对象所属的类。</li>
+<li>更简单：成员函数 — 编译看 = 左边，运行看 = 右边。</li>
+</ol>
+</li>
+<li>3，静态函数。<ol>
+<li>编译时期：参考的是引用型变量所属的类中是否有调用的成员。</li>
+<li>运行时期：也是参考引用型变量所属的类中是否有调用的成员。</li>
+<li>为什么是这样的呢？因为静态方法，其实不所属于对象，而是所属于该方法所在的类。</li>
+<li>调用静态的方法引用是哪个类的引用调用的就是哪个类中的静态方法。</li>
+<li>简单说：静态函数 — 编译运行都看 = 左边。</li>
+</ol>
+</li>
+</ul>
+<h4 id="Object："><a href="#Object：" class="headerlink" title="Object："></a>Object：</h4><p>所有类的直接或者间接父类，Java认为所有的对象都具备一些基本的共性内容，这些内容可以不断的向上抽取，最终就抽取到了一个最顶层的类中的，该类中定义的就是所有对象都具备的功能。</p>
+<p>具体方法：</p>
+<ul>
+<li>1，<code>boolean equals(Object obj)</code>：用于比较两个对象是否相等，其实内部比较的就是两个对象地址。<br>而根据对象的属性不同，判断对象是否相同的具体内容也不一样。所以在定义类时，一般都会复写<code>equals</code>方法，建立本类特有的判断对象是否相同的依据。</li>
+</ul>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object obj)</span></span>&#123;
+      <span class="hljs-keyword">if</span>(!(obj <span class="hljs-keyword">instanceof</span> Person))
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+      Person p = (Person)obj;
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.age == p.age;
+  &#125;</code></pre>
+
+<ul>
+<li>2，<code>String toString()</code>：将对象变成字符串；默认返回的格式：<code>类名@哈希值 = getClass().getName() + &#39;@&#39; + Integer.toHexString(hashCode())</code><br>为了对象对应的字符串内容有意义，可以通过复写，建立该类对象自己特有的字符串表现形式。<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span></span>&#123;
+      <span class="hljs-keyword">return</span> <span class="hljs-string">"person : "</span>+age;
+  &#125;</code></pre></li>
+<li>3，<code>Class getClass()</code>：获取任意对象运行时的所属字节码文件对象。</li>
+<li>4，<code>int hashCode()</code>：返回该对象的哈希码值。支持此方法是为了提高哈希表的性能。</li>
+</ul>
+<p>通常<code>equals</code>，<code>toString</code>，<code>hashCode</code>，在应用中都会被复写，建立具体对象的特有的内容。<br>内部类：如果A类需要直接访问B类中的成员，而B类又需要建立A类的对象。这时,为了方便设计和访问，直接将A类定义在B类中。就可以了。A类就称为内部类。内部类可以直接访问外部类中的成员。而外部类想要访问内部类，必须要建立内部类的对象。</p>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Outer</span></span>&#123;
+    <span class="hljs-keyword">int</span> num = <span class="hljs-number">4</span>;   
+    <span class="hljs-class"><span class="hljs-keyword">class</span>  <span class="hljs-title">Inner</span> </span>&#123;
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">show</span><span class="hljs-params">()</span></span>&#123;
+            System.out.println(<span class="hljs-string">"inner show run "</span>+num);         
+        &#125;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">()</span></span>&#123;
+        Inner in = <span class="hljs-keyword">new</span> Inner();<span class="hljs-comment">//创建内部类的对象。</span>
+        in.show();<span class="hljs-comment">//调用内部类的方法。</span>
+    &#125;
+&#125;</code></pre>
+<p>当内部类定义在外部类中的成员位置上，可以使用一些成员修饰符修饰 <code>private、static</code>。</p>
+<ul>
+<li>1：默认修饰符。<br>直接访问内部类格式：外部类名.内部类名 变量名 =  外部类对象.内部类对象;<br><code>Outer.Inner in = new Outer.new Inner();//这种形式很少用。</code><br>但是这种应用不多见，因为内部类之所以定义在内部就是为了封装。想要获取内部类对象通常都通过外部类的方法来获取。这样可以对内部类对象进行控制。</li>
+<li>2：私有修饰符。<br>通常内部类被封装，都会被私有化，因为封装性不让其他程序直接访问。</li>
+<li>3：静态修饰符。<br>如果内部类被静态修饰，相当于外部类，会出现访问局限性，只能访问外部类中的静态成员。<br>注意；如果内部类中定义了静态成员，那么该内部类必须是静态的。</li>
+</ul>
+<p>内部类编译后的文件名为：“外部类名$内部类名.java”；</p>
+<p>为什么内部类可以直接访问外部类中的成员呢？</p>
+<p>那是因为内部中都持有一个外部类的引用。这个是引用是 外部类名.this</p>
+<p>内部类可以定义在外部类中的成员位置上，也可以定义在外部类中的局部位置上。</p>
+<p>当内部类被定义在局部位置上，只能访问局部中被final修饰的局部变量。</p>
+<p>匿名内部类：没有名字的内部类。就是内部类的简化形式。一般只用一次就可以用这种形式。匿名内部类其实就是一个匿名子类对象。想要定义匿名内部类：需要前提，内部类必须继承一个类或者实现接口。</p>
+<p>匿名内部类的格式：new 父类名&amp;接口名(){ 定义子类成员或者覆盖父类方法 }.方法。</p>
+<p>匿名内部类的使用场景：</p>
+<p>当函数的参数是接口类型引用时，如果接口中的方法不超过3个。可以通过匿名内部类来完成参数的传递。</p>
+<p>其实就是在创建匿名内部类时，该类中的封装的方法不要过多，最好两个或者两个以内。</p>
+<pre><code class="hljs java"><span class="hljs-comment">//面试</span>
+        <span class="hljs-comment">//1</span>
+        <span class="hljs-keyword">new</span> Object()&#123;
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">show</span><span class="hljs-params">()</span></span>&#123;
+                System.out.println(<span class="hljs-string">"show run"</span>);            
+            &#125;
+        &#125;.show();
+        <span class="hljs-comment">//2</span>
+        Object obj = <span class="hljs-keyword">new</span> Object()&#123;
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">show</span><span class="hljs-params">()</span></span>&#123;
+                System.out.println(<span class="hljs-string">"show run"</span>);
+            &#125;
+        &#125;;
+        obj.show();
+       
+        <span class="hljs-number">1</span>和<span class="hljs-number">2</span>的写法正确吗？有区别吗？说出原因。
+        写法是正确，<span class="hljs-number">1</span>和<span class="hljs-number">2</span>都是在通过匿名内部类建立一个Object类的子类对象。
+        区别：
+        第一个可是编译通过，并运行。
+        第二个编译失败，因为匿名内部类是一个子类对象，当用Object的obj引用指向时，就被提升为了
+        Object类型，而编译时检查Object类中是否有show方法，所以编译失败。</code></pre>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InnerClassDemo6</span> </span>&#123;
+    +（<span class="hljs-keyword">static</span>）<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Inner</span></span>&#123;
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">show</span><span class="hljs-params">()</span></span>&#123;&#125;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">this</span>.<span class="hljs-keyword">new</span> Inner().show();<span class="hljs-comment">//可以</span>
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<span class="hljs-comment">//static不允许this</span>
+        This.<span class="hljs-keyword">new</span> Inner().show();<span class="hljs-comment">//错误，Inner类需要定义成static</span>
+    &#125;
+&#125;</code></pre>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Inter</span></span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">show</span><span class="hljs-params">()</span></span>;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Outer</span></span>&#123;<span class="hljs-comment">//通过匿名内部类补足Outer类中的代码。</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Inter <span class="hljs-title">method</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Inter()&#123;
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">show</span><span class="hljs-params">()</span></span>&#123;&#125;
+        &#125;;
+    &#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InnerClassDemo7</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Outer.method().show();
+    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">        Outer.method():意思是：Outer中有一个名称为method的方法，而且这个方法是静态的。</span>
+<span class="hljs-comment">        Outer.method().show():当Outer类调用静态的method方法运算结束后的结果又调用了show方法，意味着：method()方法运算完一个是对象，而且这个对象是Inter类型的。</span>
+<span class="hljs-comment">    */</span>
+        function (<span class="hljs-keyword">new</span> Inter()&#123;
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">show</span><span class="hljs-params">()</span></span>&#123;&#125;
+        &#125;); <span class="hljs-comment">//匿名内部类作为方法的参数进行传递。</span>
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">function</span><span class="hljs-params">(Inter in)</span></span>&#123;
+        in.show();
+    &#125;
+&#125;</code></pre>
+
+<hr>
+<blockquote>
+<p>对一个人来说，所期望的不是别的，而仅仅是他能全力以赴和献身于一种美好事业。——爱因斯坦</p>
+</blockquote>
+
+            </article>
+            <hr>
+              <br>
+              <!-- 文本结束 -->
+              <div style="text-align:center;color: #1abc9c;font-size:25px;">
+                本文结束
+              </div>
+              <br>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">后端技术</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+<!--                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>-->
+                <div id="post-note">
+                  <div><strong>本文作者：</strong><a href="/">myname</a></div>
+                  <div><strong>本文链接：</strong><a href="https://luoyuanxiangvip.com/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E5%A4%9A%E6%80%81/">https://luoyuanxiangvip.com/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E5%A4%9A%E6%80%81/</a></div>
+                  <div><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</div>
+                </div>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E5%BC%82%E5%B8%B8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">java之基础学习（七）异常</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89%E6%8E%A5%20%E5%8F%A3/">
+                        <span class="hidden-mobile">java之基础学习（五）接 口</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script defer src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link  rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" />
+<script type="text/javascript">
+  var oldLoadAp = window.onload;
+  window.onload = function () {
+    oldLoadAp && oldLoadAp();
+
+    new APlayer({
+      container: document.getElementById('aplayer'),
+      fixed: true,
+      autoplay: 'false' === 'true',
+      loop: 'all',
+      order: 'random',
+      theme: '#b7daff',
+      preload: 'none',
+      audio: [{"name":"月满弦","artist":"刘珂矣","url":"/songs/刘珂矣 - 月满弦.mp3","cover":"http://p1.music.126.net/SKujq5vqqv4KYOVFk7SiRA==/3407386538630284.jpg?param=130y130"}]
+    });
+  }
+</script>
+
+  
+
+  
+
+  <footer class="pt-5">
+  <div class="text-center py-3">
+    <div class="footer-theme">
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener noreferrer">Hexo</a> theme <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener noreferrer">Fluid</a> mod by <a href="https://github.com/julydate/hexo-theme-fluid-mod" target="_blank" rel="nofollow noopener noreferrer">Julydate</a>
+    </div>
+
+    
+      <div class="footer-copyright">
+        
+          ©2020&nbsp;忆往昔
+        
+        
+          
+            <i class="iconfont icon-love"></i>
+          
+          <span>系统稳定运行<span id="runtime"></span>天</span>
+        
+      </div>
+    
+
+    
+      <div class="footer-siteview">
+        
+          <!-- 不蒜子统计PV -->
+          <span id="busuanzi_container_site_pv" style="display:none">
+              被瞅了<span id="busuanzi_value_site_pv"></span>次
+          </span>
+        
+        
+          <!-- 不蒜子统计UV -->
+          <span id="busuanzi_container_site_uv" style="display:none">
+            |
+            被<span id="busuanzi_value_site_uv"></span>人看爆
+          </span>
+        
+      </div>
+    
+
+    
+      <!-- 备案信息 -->
+      <div class="footer-beian">
+        <a href="http://beian.miit.gov.cn/" target="_blank"
+           rel="nofollow noopener noreferrer">蜀ICP备17037993号</a>
+        
+      </div>
+    
+
+    
+      <!-- 一言 -->
+      <div class="footer-hitokoto">
+        <a id="hitokotoa" href="#" target="_blank" rel="nofollow noopener noreferrer">
+          <span id="hitokoto"></span>
+        </a>
+      </div>
+    
+
+  </div>
+</footer>
+<!-- SCRIPTS -->
+
+
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "java之基础学习（六）多态&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+  /*一言API*/
+  $(document).ready(function(){
+    getHitokoto();
+  });
+  function hitokoto(e) {
+    $("#hitokoto").stop().fadeOut(function() {
+      $("#hitokoto").html(JSON.parse(e).hitokoto);
+      var element = document.getElementById('hitokotoa');
+      element.href = "https://hitokoto.cn?id=" + JSON.parse(e).id;
+      $("#hitokoto").stop().fadeIn()
+    })
+  };
+  function getHitokoto() {
+    var e = ["a", "b", "c", "d"],
+    t = document.createElement("script");
+    t.type = "text/javascript";
+    t.id = "hitokotoko_js";
+    t.src = "https://v1.hitokoto.cn/?encode=json&callback=hitokoto&charset=utf-8&cat=" + e[Math.floor(Math.random() * e.length)];
+    $("#hitokoto").append(t);
+  };
+  setInterval(getHitokoto, 1e4);
+  </script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js"></script>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    /*显示博客运行时间*/
+    var blogRunTime = function () {
+      var runTime = document.getElementById("runtime");
+      var runtimeDate = "2019,11,06";
+      var createDate = new Date(runtimeDate);
+      var nowDate = new Date();
+      var dateLine = nowDate.getTime() - createDate.getTime();
+      var runDate = Math.floor(dateLine / (1000 * 60 * 60 * 24));
+      runTime.innerHTML = runDate;
+    };
+    $(document).ready(function(){
+      blogRunTime();
+    });
+  </script>
+
+
+  <script type="text/javascript">
+    /*窗口监视*/
+    var originalTitle = document.title;
+    window.onblur = function(){document.title = "顺溜快回来！！！"};
+    window.onfocus = function(){document.title = originalTitle};
+  </script>
+
+
+
+    
+    
+        <!-- 腾讯统计 -->
+        <script>
+            var _mtac = {};
+            (function() {
+                var mta = document.createElement("script");
+                mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+                mta.setAttribute("name", "MTAH5");
+                mta.setAttribute("sid", "[object Object]");
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(mta, s);
+            })();
+        </script>
+    
+    
+    
+    
+
+
+
+
+</body>
+</html>

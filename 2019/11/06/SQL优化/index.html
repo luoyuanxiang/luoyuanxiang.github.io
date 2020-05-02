@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://img.luoyuanxiangvip.com/index.jpg">
+  <link rel="icon" type="image/png" href="https://img.luoyuanxiangvip.com/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="记录笔记">
+  <meta name="author" content="忆往昔">
+  <meta name="keywords" content="忆往惜,记录笔记">
+  <title>SQL优化 - 忆往惜</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <div class="top-scroll-bar"></div>
+<nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://img.luoyuanxiangvip.com/index.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2019-11-06 12:05">
+                    2019年11月6日 中午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    2.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    23
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p><img src="https://img.luoyuanxiangvip.com/blogImg/1563243777509.jpg" srcset="/img/loading.gif" alt="u=671476709,2522611488fm=26gp=0.jpg"></p>
+<ol>
+<li><p>对查询进行优化，要尽量避免全表扫描，首先应考虑在<code>where</code>及<code>order by</code>涉及的列上建立索引。</p>
+</li>
+<li><p>应尽量避免在<code>where</code>子句中对字段进行<code>null</code>值判断，否则将导致引擎放弃使用索引而进行全表扫描，如：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span></code></pre>
+<p>最好不要给数据库留<code>NULL</code>，尽可能的使用<code>NOT NULL</code>填充数据库.<br>备注、描述、评论之类的可以设置为<code>NULL</code>，其他的，最好不要使用<code>NULL</code>。<br>不要以为<code>NULL</code>不需要空间，比如：<code>char(100)</code>型，在字段建立时，空间就固定了， 不管是否插入值（<code>NULL</code>也包含在内），都是占用 100个字符的空间的，如果是<code>varchar</code>这样的变长字段，<code>null</code>不占用空间。<br>可以在num上设置默认值0，确保表中num列没有null值，然后这样查询：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> = <span class="hljs-number">0</span></code></pre>
+</li>
+<li><p>应尽量避免在<code>where</code>子句中使用<code>!=</code>或<code>&lt;&gt;</code>操作符，否则将引擎放弃使用索引而进行全表扫描。</p>
+</li>
+<li><p>应尽量避免在<code>where</code>子句中使用<code>or</code>来连接条件，如果一个字段有索引，一个字段没有索引，将导致引擎放弃使用索引而进行全表扫描，如：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span>=<span class="hljs-number">10</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">Name</span> = <span class="hljs-string">'admin'</span></code></pre>
+<p>可以这样查询：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> = <span class="hljs-number">10</span>
+<span class="hljs-keyword">union</span> <span class="hljs-keyword">all</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">Name</span> = <span class="hljs-string">'admin'</span></code></pre>
+</li>
+<li><p><code>in</code>和<code>not in</code>也要慎用，否则会导致全表扫描，如：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> <span class="hljs-keyword">in</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)</code></pre>
+<p>对于连续的数值，能用 between 就不要用<code>in</code>了：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> <span class="hljs-keyword">between</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> <span class="hljs-number">3</span></code></pre>
+<p>很多时候用<code>exists</code>代替<code>in</code>是一个好的选择：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">num</span> <span class="hljs-keyword">from</span> a <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> <span class="hljs-keyword">in</span>(<span class="hljs-keyword">select</span> <span class="hljs-keyword">num</span> <span class="hljs-keyword">from</span> b)</code></pre>
+<p>用下面的语句替换：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">num</span> <span class="hljs-keyword">from</span> a <span class="hljs-keyword">where</span> <span class="hljs-keyword">exists</span>(<span class="hljs-keyword">select</span> <span class="hljs-number">1</span> <span class="hljs-keyword">from</span> b <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span>=a.num)</code></pre>
+</li>
+<li><p>下面的查询也将导致全表扫描：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">like</span> ‘%abc%’</code></pre>
+<p>若要提高效率，可以考虑全文检索。</p>
+</li>
+<li><p>如果在<code>where</code>子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然 而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。如下面语句将进行全表扫描：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> = @<span class="hljs-keyword">num</span></code></pre>
+<p>可以改为强制查询使用索引：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">with</span>(<span class="hljs-keyword">index</span>(索引名)) <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> = @<span class="hljs-keyword">num</span></code></pre>
+<p>应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span>/<span class="hljs-number">2</span> = <span class="hljs-number">100</span></code></pre>
+<p>应改为:</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">num</span> = <span class="hljs-number">100</span>*<span class="hljs-number">2</span></code></pre>
+</li>
+<li><p>应尽量避免在<code>where</code>子句中对字段进行函数操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">substring</span>(<span class="hljs-keyword">name</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>) = ’abc’       -–<span class="hljs-keyword">name</span>以abc开头的<span class="hljs-keyword">id</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">datediff</span>(<span class="hljs-keyword">day</span>,createdate,’<span class="hljs-number">2005</span><span class="hljs-number">-11</span><span class="hljs-number">-30</span>′) = <span class="hljs-number">0</span>    -–‘<span class="hljs-number">2005</span><span class="hljs-number">-11</span><span class="hljs-number">-30</span>’    <span class="hljs-comment">--生成的id</span></code></pre>
+<p>应改为:</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">like</span> <span class="hljs-string">'abc%'</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">id</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> createdate &gt;= <span class="hljs-string">'2005-11-30'</span> <span class="hljs-keyword">and</span> createdate &lt; <span class="hljs-string">'2005-12-1'</span></code></pre>
+</li>
+<li><p>不要在<code>where</code>子句中的<code>=</code>左边进行函数、算术运算或其他表达式运算，否则系统将可能无法正确使用索引。</p>
+</li>
+<li><p>在使用索引字段作为条件时，如果该索引是复合索引，那么必须使用到该索引中的第一个字段作为条件时才能保证系统使用该索引，否则该索引将不会被使用，并且应尽可能的让字段顺序与索引顺序相一致。</p>
+</li>
+<li><p>不要写一些没有意义的查询，如需要生成一个空表结构：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> col1,col2 <span class="hljs-keyword">into</span> <span class="hljs-comment">#t from t where 1=0</span></code></pre>
+<p>这类代码不会返回任何结果集，但是会消耗系统资源的，应改成这样：</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> <span class="hljs-comment">#t(…)</span></code></pre>
+</li>
+<li><p><code>Update</code>语句，如果只更改1、2个字段，不要<code>Update</code>全部字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志。</p>
+</li>
+<li><p>对于多张大数据量（这里几百条就算大了）的表<code>JOIN</code>，要先分页再<code>JOIN</code>，否则逻辑读会很高，性能很差。</p>
+</li>
+<li><p><code>select count(*) from table；</code>这样不带任何条件的<code>count</code>会引起全表扫描，并且没有任何业务意义，是一定要杜绝的。</p>
+</li>
+<li><p>索引并不是越多越好，索引固然可以提高相应的<code>select</code>的效率，但同时也降低了<code>insert</code>及<code>update</code>的效率，因为<code>insert</code>或<code>update</code>时有可能会重建索引，所以怎样建索引需要慎重考虑，视具体情况而定。一个表的索引数最好不要超过6个，若太多则应考虑一些不常使用到的列上建的索引是否有 必要。</p>
+</li>
+<li><p>应尽可能的避免更新<code>clustered</code>索引数据列，因为<code>clustered</code>索引数据列的顺序就是表记录的物理存储顺序，一旦该列值改变将导致整个表记录的顺序的调整，会耗费相当大的资源。若应用系统需要频繁更新<code>clustered</code>索引数据列，那么需要考虑是否应将该索引建为<code>clustered</code>索引。</p>
+</li>
+<li><p>尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型，这会降低查询和连接的性能，并会增加存储开销。这是因为引擎在处理查询和连 接时会逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了。</p>
+</li>
+<li><p>尽可能的使用<code>varchar/nvarchar</code>代替<code>char/nchar</code>，因为首先变长字段存储空间小，可以节省存储空间，其次对于查询来说，在一个相对较小的字段内搜索效率显然要高些。</p>
+</li>
+<li><p>任何地方都不要使用<code>select * from t</code>用具体的字段列表代替<code>*</code>，不要返回用不到的任何字段。</p>
+</li>
+<li><p>尽量使用表变量来代替临时表。如果表变量包含大量数据，请注意索引非常有限（只有主键索引）。</p>
+</li>
+<li><p>避免频繁创建和删除临时表，以减少系统表资源的消耗。临时表并不是不可使用，适当地使用它们可以使某些例程更有效，例如，当需要重复引用大型表或常用表中的某个数据集时。但是，对于一次性事件， 最好使用导出表。</p>
+</li>
+<li><p>在新建临时表时，如果一次性插入数据量很大，那么可以使用<code>select into</code>代替<code>create table</code>，避免造成大量 log ，以提高速度；如果数据量不大，为了缓和系统表的资源，应先<code>create table</code>，然后<code>insert</code>。</p>
+</li>
+<li><p>如果使用到了临时表，在存储过程的最后务必将所有的临时表显式删除，先<code>truncate table</code>，然后<code>drop table</code>，这样可以避免系统表的较长时间锁定。</p>
+</li>
+<li><p>尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写。</p>
+</li>
+<li><p>使用基于游标的方法或临时表方法之前，应先寻找基于集的解决方案来解决问题，基于集的方法通常更有效。</p>
+</li>
+<li><p>与临时表一样，游标并不是不可使用。对小型数据集使用<code>FAST_FORWARD</code>游标通常要优于其他逐行处理方法，尤其是在必须引用几个表才能获得所需的数据时。在结果集中包括“合计”的例程通常要比使用游标执行的速度快。如果开发时 间允许，基于游标的方法和基于集的方法都可以尝试一下，看哪一种方法的效果更好。</p>
+</li>
+<li><p>在所有的存储过程和触发器的开始处设置<code>SET NOCOUNT ON</code>，在结束时设置<code>SET NOCOUNT OFF</code>。无需在执行存储过程和触发器的每个语句后向客户端发送<code>DONE_IN_PROC</code>消息。</p>
+</li>
+<li><p>尽量避免大事务操作，提高系统并发能力。</p>
+</li>
+<li><p>尽量避免向客户端返回大数据量，若数据量过大，应该考虑相应需求是否合理。</p>
+</li>
+</ol>
+<hr>
+<blockquote>
+<p>人所缺乏的不是才干而是志向，不是成功的能力而是勤劳的意志。 —— 部尔卫</p>
+</blockquote>
+
+            </article>
+            <hr>
+              <br>
+              <!-- 文本结束 -->
+              <div style="text-align:center;color: #1abc9c;font-size:25px;">
+                本文结束
+              </div>
+              <br>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">后端技术</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/sql/">sql</a>
+                    
+                  </div>
+                
+              </div>
+              
+<!--                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>-->
+                <div id="post-note">
+                  <div><strong>本文作者：</strong><a href="/">myname</a></div>
+                  <div><strong>本文链接：</strong><a href="https://luoyuanxiangvip.com/2019/11/06/SQL%E4%BC%98%E5%8C%96/">https://luoyuanxiangvip.com/2019/11/06/SQL%E4%BC%98%E5%8C%96/</a></div>
+                  <div><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</div>
+                </div>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/06/Spring%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E3%80%81%E4%BC%A0%E6%92%AD%E5%B1%9E%E6%80%A7%E3%80%81%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring事务的基本原理、传播属性、隔离级别</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/06/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8B/">
+                        <span class="hidden-mobile">java并发编程了解一下</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script defer src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link  rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" />
+<script type="text/javascript">
+  var oldLoadAp = window.onload;
+  window.onload = function () {
+    oldLoadAp && oldLoadAp();
+
+    new APlayer({
+      container: document.getElementById('aplayer'),
+      fixed: true,
+      autoplay: 'false' === 'true',
+      loop: 'all',
+      order: 'random',
+      theme: '#b7daff',
+      preload: 'none',
+      audio: [{"name":"月满弦","artist":"刘珂矣","url":"/songs/刘珂矣 - 月满弦.mp3","cover":"http://p1.music.126.net/SKujq5vqqv4KYOVFk7SiRA==/3407386538630284.jpg?param=130y130"}]
+    });
+  }
+</script>
+
+  
+
+  
+
+  <footer class="pt-5">
+  <div class="text-center py-3">
+    <div class="footer-theme">
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener noreferrer">Hexo</a> theme <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener noreferrer">Fluid</a> mod by <a href="https://github.com/julydate/hexo-theme-fluid-mod" target="_blank" rel="nofollow noopener noreferrer">Julydate</a>
+    </div>
+
+    
+      <div class="footer-copyright">
+        
+          ©2020&nbsp;忆往昔
+        
+        
+          
+            <i class="iconfont icon-love"></i>
+          
+          <span>系统稳定运行<span id="runtime"></span>天</span>
+        
+      </div>
+    
+
+    
+      <div class="footer-siteview">
+        
+          <!-- 不蒜子统计PV -->
+          <span id="busuanzi_container_site_pv" style="display:none">
+              被瞅了<span id="busuanzi_value_site_pv"></span>次
+          </span>
+        
+        
+          <!-- 不蒜子统计UV -->
+          <span id="busuanzi_container_site_uv" style="display:none">
+            |
+            被<span id="busuanzi_value_site_uv"></span>人看爆
+          </span>
+        
+      </div>
+    
+
+    
+      <!-- 备案信息 -->
+      <div class="footer-beian">
+        <a href="http://beian.miit.gov.cn/" target="_blank"
+           rel="nofollow noopener noreferrer">蜀ICP备17037993号</a>
+        
+      </div>
+    
+
+    
+      <!-- 一言 -->
+      <div class="footer-hitokoto">
+        <a id="hitokotoa" href="#" target="_blank" rel="nofollow noopener noreferrer">
+          <span id="hitokoto"></span>
+        </a>
+      </div>
+    
+
+  </div>
+</footer>
+<!-- SCRIPTS -->
+
+
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "SQL优化&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+  /*一言API*/
+  $(document).ready(function(){
+    getHitokoto();
+  });
+  function hitokoto(e) {
+    $("#hitokoto").stop().fadeOut(function() {
+      $("#hitokoto").html(JSON.parse(e).hitokoto);
+      var element = document.getElementById('hitokotoa');
+      element.href = "https://hitokoto.cn?id=" + JSON.parse(e).id;
+      $("#hitokoto").stop().fadeIn()
+    })
+  };
+  function getHitokoto() {
+    var e = ["a", "b", "c", "d"],
+    t = document.createElement("script");
+    t.type = "text/javascript";
+    t.id = "hitokotoko_js";
+    t.src = "https://v1.hitokoto.cn/?encode=json&callback=hitokoto&charset=utf-8&cat=" + e[Math.floor(Math.random() * e.length)];
+    $("#hitokoto").append(t);
+  };
+  setInterval(getHitokoto, 1e4);
+  </script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js"></script>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    /*显示博客运行时间*/
+    var blogRunTime = function () {
+      var runTime = document.getElementById("runtime");
+      var runtimeDate = "2019,11,06";
+      var createDate = new Date(runtimeDate);
+      var nowDate = new Date();
+      var dateLine = nowDate.getTime() - createDate.getTime();
+      var runDate = Math.floor(dateLine / (1000 * 60 * 60 * 24));
+      runTime.innerHTML = runDate;
+    };
+    $(document).ready(function(){
+      blogRunTime();
+    });
+  </script>
+
+
+  <script type="text/javascript">
+    /*窗口监视*/
+    var originalTitle = document.title;
+    window.onblur = function(){document.title = "顺溜快回来！！！"};
+    window.onfocus = function(){document.title = originalTitle};
+  </script>
+
+
+
+    
+    
+        <!-- 腾讯统计 -->
+        <script>
+            var _mtac = {};
+            (function() {
+                var mta = document.createElement("script");
+                mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+                mta.setAttribute("name", "MTAH5");
+                mta.setAttribute("sid", "[object Object]");
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(mta, s);
+            })();
+        </script>
+    
+    
+    
+    
+
+
+
+
+</body>
+</html>

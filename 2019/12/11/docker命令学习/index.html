@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://img.luoyuanxiangvip.com/index.jpg">
+  <link rel="icon" type="image/png" href="https://img.luoyuanxiangvip.com/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="记录笔记">
+  <meta name="author" content="忆往昔">
+  <meta name="keywords" content="忆往惜,记录笔记">
+  <title>docker命令学习 - 忆往惜</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <div class="top-scroll-bar"></div>
+<nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://img.luoyuanxiangvip.com/index.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2019-12-11 16:03">
+                    2019年12月11日 下午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    3.3k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    39
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p><img src="https://img.luoyuanxiangvip.com/index.jpg" srcset="/img/loading.gif" alt="index"></p>
+<h2 id="docker命令"><a href="#docker命令" class="headerlink" title="docker命令"></a>docker命令</h2><h3 id="docker运行容器"><a href="#docker运行容器" class="headerlink" title="docker运行容器"></a>docker运行容器</h3><pre><code class="hljs shell">docker run -it -v G:/docker/mysql/data:/var/lib/mysql -v G:/docker/mysql/config/my.cnf:/etc/mysql/my.cnf --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
+
+
+docker run -it -v /var/lib/mysql:/var/lib/mysql -v /etc/mysql/my.cnf:/etc/mysql/my.cnf --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:5.7
+
+
+docker run -it -d -p 6379:6379 -v G:/docker/redis/config/redis.conf:/usr/local/etc/redis/redis.conf -v G:/docker/redis/data:/data --name docker-redis docker.io/redis redis-server /usr/local/etc/redis/redis.conf --appendonly yes</code></pre>
+
+
+
+<h3 id="命令解释"><a href="#命令解释" class="headerlink" title="命令解释"></a>命令解释</h3><pre><code class="hljs shell">-p 6379:6379 : 将容器的6379端口映射到主机的6379端口
+
+-v $PWD/docker/redis/conf:/etc/redis/redis.conf： 将主机中当前目录下的redis.conf映射成redis的启动配置文件
+-v $PWD /docker/redis/data:/data： 将主机中当前目录下 /docker/reids/data挂载到容器的/data
+redis-server /etc/redis/redis.conf：指定配置文件启动redis-server进程
+
+--requirepass "123456" :指定链接redis-server的密码
+--appendonly yes：开启数据持久化
+Usage: docker run [OPTIONS] IMAGE [COMMAND] [ARG...]  
+ 
+  -d, --detach=false         指定容器运行于前台还是后台，默认为false   
+  -i, --interactive=false   打开STDIN，用于控制台交互  
+  -t, --tty=false            分配tty设备，该可以支持终端登录，默认为false  
+  -u, --user=""              指定容器的用户  
+  -a, --attach=[]            标准输入输出流和错误信息（必须是以非docker run -d启动的容器）
+  -w, --workdir=""           指定容器的工作目录 
+  -c, --cpu-shares=0        设置容器CPU权重，在CPU共享场景使用  
+  -e, --env=[]               指定环境变量，容器中可以使用该环境变量  
+  -m, --memory=""            指定容器的内存上限  
+  -P, --publish-all=false    指定容器暴露的端口  
+  -p, --publish=[]           指定容器暴露的端口 
+  -h, --hostname=""          指定容器的主机名  
+  -v, --volume=[]            给容器挂载存储卷，挂载到容器的某个目录  
+  --volumes-from=[]          给容器挂载其他容器上的卷，挂载到容器的某个目录
+  --cap-add=[]               添加权限，权限清单详见：http://linux.die.net/man/7/capabilities  
+  --cap-drop=[]              删除权限，权限清单详见：http://linux.die.net/man/7/capabilities  
+  --cidfile=""               运行容器后，在指定文件中写入容器PID值，一种典型的监控系统用法  
+  --cpuset=""                设置容器可以使用哪些CPU，此参数可以用来容器独占CPU  
+  --device=[]                添加主机设备给容器，相当于设备直通  
+  --dns=[]                   指定容器的dns服务器  
+  --dns-search=[]            指定容器的dns搜索域名，写入到容器的/etc/resolv.conf文件  
+  --entrypoint=""            覆盖image的入口点  
+  --env-file=[]              指定环境变量文件，文件格式为每行一个环境变量  
+  --expose=[]                指定容器暴露的端口，即修改镜像的暴露端口  
+  --link=[]                  指定容器间的关联，使用其他容器的IP、env等信息  
+  --lxc-conf=[]              指定容器的配置文件，只有在指定--exec-driver=lxc时使用  
+  --name=""                  指定容器名字，后续可以通过名字进行容器管理，links特性需要使用名字  
+  --net="bridge"             容器网络设置:
+                                bridge 使用docker daemon指定的网桥     
+                                host     //容器使用主机的网络  
+                                container:NAME_or_ID  &gt;//使用其他容器的网路，共享IP和PORT等网络资源  
+                                none 容器使用自己的网络（类似--net=bridge），但是不进行配置 
+  --privileged=false         指定容器是否为特权容器，特权容器拥有所有的capabilities  
+  --restart="no"             指定容器停止后的重启策略:
+                                no：容器退出时不重启  
+                                on-failure：容器故障退出（返回值非零）时重启 
+                                always：容器退出时总是重启  
+  --rm=false                 指定容器停止后自动删除容器(不支持以docker run -d启动的容器)  
+  --sig-proxy=true           设置由代理接受并处理信号，但是SIGCHLD、SIGSTOP和SIGKILL不能被代理</code></pre>
+
+<h3 id="docker补充命令"><a href="#docker补充命令" class="headerlink" title="docker补充命令"></a>docker补充命令</h3><ul>
+<li><code>docker start</code> 容器名（容器ID也可以）</li>
+<li><code>docker stop</code> 容器名（容器ID也可以）</li>
+<li><code>docker run</code> 命令加 -d 参数，docker 会将容器放到后台运行</li>
+<li><code>docker ps</code> 正在运行的容器</li>
+<li><code>docker logs --tail 10 -tf</code> 容器名 查看容器的日志文件,加-t是加上时间戳，f是跟踪某个容器的最新日志而不必读整个日志文件</li>
+<li><code>docker top</code> 容器名 查看容器内部运行的进程</li>
+<li><code>docker exec -d</code> 容器名 touch /etc/new_config_file 通过后台命令创建一个空文件</li>
+<li><code>docker run --restart=always --name</code> 容器名 -d ubuntu /bin/sh -c “while true;do echo hello world; sleep 1; done” 无论退出代码是什么，docker都会自动重启容器，可以设置 –restart=on-failure:5 自动重启的次数</li>
+<li><code>docker inspect</code> 容器名 对容器进行详细的检查，可以加 –format=’{(.State.Running)}’ 来获取指定的信息</li>
+<li><code>docker rm</code> 容器ID 删除容器，注，运行中的容器无法删除</li>
+<li><code>docker rm $(docker ps -aq)</code> 删除所有容器</li>
+<li><code>docker rmi $(docker images -aq)</code> 删除所有镜像</li>
+<li><code>docker images</code> 列出镜像</li>
+<li><code>docker pull</code> 镜像名:标签 拉镜像</li>
+<li><code>docker search</code> 查找docker Hub 上公共的可用镜像</li>
+<li><code>docker build -t=&#39;AT/web_server:v1&#39;</code> 命令后面可以直接加上github仓库的要目录下存在的Dockerfile文件。 命令是编写Dockerfile 之后使用的。-t选项为新镜像设置了仓库和名称:标签</li>
+<li><code>docker login</code> 登陆到Docker Hub，个人认证信息将会保存到$HOME/.dockercfg,</li>
+<li><code>docker commit -m=&quot;comment &quot; --author=&quot;AT&quot;</code> 容器ID 镜像的用户名/仓库名:标签 不推荐这种方法，推荐dockerfile</li>
+<li><code>docker history</code> 镜像ID 深入探求镜像是如何构建出来的</li>
+<li><code>docker port</code> 镜像ID 端口 查看映射情况的容器的ID和容器的端口号，假设查询80端口对应的映射的端口</li>
+<li><code>run</code> 运行一个容器， -p 8080:80 将容器内的80端口映射到docker宿主机的某一特定端口，将容器的80端口绑定到宿主机的8080端口，另 127.0.0.1:80:80 是将容器的80端口绑定到宿主机这个IP的80端口上，-P 是将容器内的80端口对本地的宿主机公开</li>
+<li><code>docker push</code> 镜像名 将镜像推送到 Docker Hub</li>
+<li><code>docker rmi</code> 镜像名 删除镜像</li>
+<li><code>docker attach</code> 容器ID 进入容器</li>
+<li><code>docker network create --subnet=172.171.0.0/16 docker-at</code> 选取172.172.0.0网段</li>
+<li><code>docker build</code> 就可以加 -ip指定容器ip 172.171.0.10 了</li>
+</ul>
+<h3 id="docker-镜像操作"><a href="#docker-镜像操作" class="headerlink" title="docker 镜像操作"></a>docker 镜像操作</h3><pre><code class="hljs shell">docker images：列出images
+
+docker images -a：列出所有的images（包含历史）
+
+docker images --tree ：显示镜像的所有层(layer)
+
+docker rmi  &lt;image ID&gt;：删除一个或多个image</code></pre>
+
+
+
+<h3 id="docker-容器操作"><a href="#docker-容器操作" class="headerlink" title="docker 容器操作"></a>docker 容器操作</h3><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">启动容器</span>
+docker start &lt;ContainerId(或者name)&gt;
+<span class="hljs-meta">#</span><span class="bash">停止容器</span>
+docker stop &lt;ContainerId(或者name)&gt;
+docker stop -t=60 容器ID或容器名
+参数 -t：关闭容器的限时，如果超时未能关闭则用kill强制关闭，默认值10s，这个时间用于容器的自己保存状态
+<span class="hljs-meta">#</span><span class="bash">重启容器</span>
+docker restart &lt;ContainerId(或者name)&gt;
+<span class="hljs-meta">#</span><span class="bash">删除容器</span>
+docker rm &lt;ContainerId(或者name)&gt;
+docker rm -f 容器ID或容器名 ：直接删除正在运行的容器
+<span class="hljs-meta">#</span><span class="bash">删除所有容器</span>
+docker rm $(docker ps -a -q)
+<span class="hljs-meta">#</span><span class="bash">进入容器</span>
+docker exec -it containerID /bin/bash
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># 查看容器日志</span></span>
+docker logs -f -t --tail 行数 容器名</code></pre>
+
+<h3 id="Dockerfile语法"><a href="#Dockerfile语法" class="headerlink" title="Dockerfile语法"></a>Dockerfile语法</h3><ul>
+<li><code>MAINTAINER</code> 标识镜像的作者和联系方式</li>
+<li><code>EXPOSE</code> 可以指定多个EXPOSE向外部公开多个端口，可以帮助多个容器链接</li>
+<li><code>FROM</code> 指令指定一个已经存在的镜像</li>
+<li><code>\#</code>号代表注释</li>
+<li><code>RUN</code> 运行命令,会在shell 里使用命令包装器 /bin/sh -c 来执行。如果是在一个不支持shell 的平台上运行或者不希望在shell 中运行，也可以 使用exec 格式 的RUN指令</li>
+<li><code>ENV REFRESHED_AT</code> 环境变量 这个环境亦是用来表明镜像模板最后的更新时间</li>
+<li><code>VOLUME</code> 容器添加卷。一个卷是可以 存在于一个或多个容器内的特定的目录，对卷的修改是立刻生效的，对卷的修改不会对更新镜像产品影响，例:VOLUME[“/opt/project”,”/data”]</li>
+<li><code>ADD</code> 将构建环境 下的文件 和目录复制到镜像 中。例 ADD nginx.conf /conf/nginx.conf 也可以是取url 的地址文件，如果是压缩包，ADD命令会自动解压、</li>
+<li><code>USER</code> 指定镜像用那个USER 去运行</li>
+<li><code>COPY</code> 是复制本地文件，而不会去做文件提取（解压包不会自动解压） 例：COPY conf.d/ /etc/apache2/ 将本地conf.d目录中的文件复制到/etc/apache2/目录中</li>
+</ul>
+<h3 id="docker-compose-yml-语法说明"><a href="#docker-compose-yml-语法说明" class="headerlink" title="docker-compose.yml 语法说明"></a>docker-compose.yml 语法说明</h3><pre><code class="hljs yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">'3'</span> <span class="hljs-comment"># 表示compose对docker版本的支持，这里是compose版本，并非是docker版本。</span>
+<span class="hljs-attr">services:</span> <span class="hljs-comment"># 表示一个该配置文件的所有容器实例，支持配置多个容器实例。</span>
+  <span class="hljs-attr">tomcat:</span> <span class="hljs-comment"># 表示是一个多个容器中的其中一个</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span> <span class="hljs-comment"># 表示该容器实例是随着机器启动而启动。</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">tomcat</span> <span class="hljs-comment"># 表示本容器使用的镜像是tomcat，如需要指定版本号则 image: tomcat:8.0。</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">tomcat</span> <span class="hljs-comment"># 表示容器的一个别名</span>
+    <span class="hljs-attr">ports:</span> <span class="hljs-comment"># 表示容器端口映射到宿主机端口。</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-number">8080</span><span class="hljs-string">:8080</span>
+    <span class="hljs-attr">volumes:</span> <span class="hljs-comment"># 表示dockers容器的数据卷，将容器实例的目录映射到宿主机上盘符目录。</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">d://docker/tomcat/webapps:/usr/local/tomcat/webapps</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">d://docker/tomcat/logs:/usr/local/tomcat/logs</span>
+    <span class="hljs-attr">environment:</span> <span class="hljs-comment"># 表示容器环境的设置，我这里配置的是tomcat容器的时区时间为亚洲/上海。</span>
+      <span class="hljs-attr">TZ:</span> <span class="hljs-string">Asia/Shanghai</span></code></pre>
+<ul>
+<li><code>image</code> 指定为镜像名称或镜像ID。如果镜像不存在，Compose将尝试从互联网拉取这个镜像</li>
+<li><code>build</code> 指定Dockerfile所在文件夹的路径。Compose将会利用他自动构建这个镜像，然后使用这个镜像</li>
+<li><code>command</code> 覆盖容器启动后默认执行的命令</li>
+<li><code>links</code> 链接到其他服务容器，使用服务名称(同时作为别名)或服务别名（SERVICE:ALIAS）都可以</li>
+<li><code>external_links</code> 链接到docker-compose.yml外部的容器，甚至并非是Compose管理的容器。参数格式和links类似</li>
+<li><code>ports</code> 暴露端口信息。宿主机器端口：容器端口（HOST:CONTAINER）格式或者仅仅指定容器的端口（宿主机器将会随机分配端口）都可以(注意：当使用 HOST:CONTAINER 格式来映射端口时，如果你使用的容器端口小于 60 你可能会得到错误得结果，因为 YAML 将会解析 xx:yy 这种数字格式为 60 进制。所以建议采用字符串格式。)</li>
+<li><code>expose</code> 暴露端口，与posts不同的是expose只可以暴露端口而不能映射到主机，只供外部服务连接使用；仅可以指定内部端口为参数</li>
+<li><code>volumes</code> 设置卷挂载的路径。可以设置宿主机路径:容器路径（host:container）或加上访问模式（host:container:ro）ro就是readonly的意思，只读模式</li>
+<li><code>volunes_from</code> 挂载另一个服务或容器的所有数据卷</li>
+<li><code>environment</code> 设置环境变量。可以属于数组或字典两种格式。如果只给定变量的名称则会自动加载它在Compose主机上的值，可以用来防止泄露不必要的数据</li>
+<li><code>env_file</code> 从文件中获取环境变量，可以为单独的文件路径或列表。如果通过docker-compose -f FILE指定了模板文件，则env_file中路径会基于模板文件路径。如果有变量名称与environment指令冲突，则以后者为准(环境变量文件中每一行都必须有注释，支持#开头的注释行)</li>
+<li><code>extends</code> 基于已有的服务进行服务扩展。例如我们已经有了一个webapp服务，模板文件为common.yml。编写一个新的 development.yml 文件，使用 common.yml 中的 webapp 服务进行扩展。后者会自动继承common.yml中的webapp服务及相关的环境变量</li>
+<li><code>net</code> 设置网络模式。使用和docker client 的 –net 参数一样的值</li>
+<li><code>pid</code> 和宿主机系统共享进程命名空间，打开该选项的容器可以相互通过进程id来访问和操作</li>
+<li><code>dns</code> 配置DNS服务器。可以是一个值，也可以是一个列表</li>
+<li><code>cap_add，cap_drop</code> 添加或放弃容器的Linux能力（Capability）</li>
+<li><code>dns_search</code> 配置DNS搜索域。可以是一个值也可以是一个列表</li>
+<li>注意：使用compose对Docker容器进行编排管理时，需要编写docker-compose.yml文件，初次编写时，容易遇到一些比较低级的问题，导致执行docker-compose up时先解析yml文件的错误。比较常见的是yml对缩进的严格要求。yml文件还行后的缩进，不允许使用tab键字符，只能使用空格，而空格的数量也有要求，一般两个空格。</li>
+</ul>
+<h3 id="docker-window-10-之-虚拟数据卷创建"><a href="#docker-window-10-之-虚拟数据卷创建" class="headerlink" title="docker window 10 之 虚拟数据卷创建"></a>docker window 10 之 虚拟数据卷创建</h3><blockquote>
+<p>主要是用于数据挂载在本地盘没有权限问题的解决 如 mongodb等</p>
+</blockquote>
+<h4 id="创建虚拟数据卷-test数据卷"><a href="#创建虚拟数据卷-test数据卷" class="headerlink" title="创建虚拟数据卷 test数据卷"></a>创建虚拟数据卷 test数据卷</h4><p><code>docker volume create test</code></p>
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p><code>docker volume rm test</code></p>
+<h4 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h4><p><code>docker volume ls</code></p>
+<hr>
+<blockquote>
+<p>参考：<a href="https://segmentfault.com/a/1190000017844566" target="_blank" rel="noopener">后端随笔记录</a></p>
+</blockquote>
+<blockquote>
+<p>你要尽全力保护你的梦想。那些嘲笑你梦想的人，因为他们必定会失败，他们想把你变成和他们一样的人。 —《当幸福来敲门》</p>
+</blockquote>
+
+            </article>
+            <hr>
+              <br>
+              <!-- 文本结束 -->
+              <div style="text-align:center;color: #1abc9c;font-size:25px;">
+                本文结束
+              </div>
+              <br>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%97%B2%E8%A8%80%E7%A2%8E%E8%AF%AD/">闲言碎语</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/docker/">docker</a>
+                    
+                  </div>
+                
+              </div>
+              
+<!--                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>-->
+                <div id="post-note">
+                  <div><strong>本文作者：</strong><a href="/">myname</a></div>
+                  <div><strong>本文链接：</strong><a href="https://luoyuanxiangvip.com/2019/12/11/docker%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0/">https://luoyuanxiangvip.com/2019/12/11/docker%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0/</a></div>
+                  <div><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</div>
+                </div>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/03/23/spring%20boot+redis+shiro+jwt%20token%E6%97%A0%E7%8A%B6%E6%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">spring boot+redis+shiro+jwt token无状态权限验证</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/15/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AB%EF%BC%89%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                        <span class="hidden-mobile">java之基础学习（八）多线程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script defer src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link  rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" />
+<script type="text/javascript">
+  var oldLoadAp = window.onload;
+  window.onload = function () {
+    oldLoadAp && oldLoadAp();
+
+    new APlayer({
+      container: document.getElementById('aplayer'),
+      fixed: true,
+      autoplay: 'false' === 'true',
+      loop: 'all',
+      order: 'random',
+      theme: '#b7daff',
+      preload: 'none',
+      audio: [{"name":"月满弦","artist":"刘珂矣","url":"/songs/刘珂矣 - 月满弦.mp3","cover":"http://p1.music.126.net/SKujq5vqqv4KYOVFk7SiRA==/3407386538630284.jpg?param=130y130"}]
+    });
+  }
+</script>
+
+  
+
+  
+
+  <footer class="pt-5">
+  <div class="text-center py-3">
+    <div class="footer-theme">
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener noreferrer">Hexo</a> theme <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener noreferrer">Fluid</a> mod by <a href="https://github.com/julydate/hexo-theme-fluid-mod" target="_blank" rel="nofollow noopener noreferrer">Julydate</a>
+    </div>
+
+    
+      <div class="footer-copyright">
+        
+          ©2020&nbsp;忆往昔
+        
+        
+          
+            <i class="iconfont icon-love"></i>
+          
+          <span>系统稳定运行<span id="runtime"></span>天</span>
+        
+      </div>
+    
+
+    
+      <div class="footer-siteview">
+        
+          <!-- 不蒜子统计PV -->
+          <span id="busuanzi_container_site_pv" style="display:none">
+              被瞅了<span id="busuanzi_value_site_pv"></span>次
+          </span>
+        
+        
+          <!-- 不蒜子统计UV -->
+          <span id="busuanzi_container_site_uv" style="display:none">
+            |
+            被<span id="busuanzi_value_site_uv"></span>人看爆
+          </span>
+        
+      </div>
+    
+
+    
+      <!-- 备案信息 -->
+      <div class="footer-beian">
+        <a href="http://beian.miit.gov.cn/" target="_blank"
+           rel="nofollow noopener noreferrer">蜀ICP备17037993号</a>
+        
+      </div>
+    
+
+    
+      <!-- 一言 -->
+      <div class="footer-hitokoto">
+        <a id="hitokotoa" href="#" target="_blank" rel="nofollow noopener noreferrer">
+          <span id="hitokoto"></span>
+        </a>
+      </div>
+    
+
+  </div>
+</footer>
+<!-- SCRIPTS -->
+
+
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "docker命令学习&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+  /*一言API*/
+  $(document).ready(function(){
+    getHitokoto();
+  });
+  function hitokoto(e) {
+    $("#hitokoto").stop().fadeOut(function() {
+      $("#hitokoto").html(JSON.parse(e).hitokoto);
+      var element = document.getElementById('hitokotoa');
+      element.href = "https://hitokoto.cn?id=" + JSON.parse(e).id;
+      $("#hitokoto").stop().fadeIn()
+    })
+  };
+  function getHitokoto() {
+    var e = ["a", "b", "c", "d"],
+    t = document.createElement("script");
+    t.type = "text/javascript";
+    t.id = "hitokotoko_js";
+    t.src = "https://v1.hitokoto.cn/?encode=json&callback=hitokoto&charset=utf-8&cat=" + e[Math.floor(Math.random() * e.length)];
+    $("#hitokoto").append(t);
+  };
+  setInterval(getHitokoto, 1e4);
+  </script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js"></script>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    /*显示博客运行时间*/
+    var blogRunTime = function () {
+      var runTime = document.getElementById("runtime");
+      var runtimeDate = "2019,11,06";
+      var createDate = new Date(runtimeDate);
+      var nowDate = new Date();
+      var dateLine = nowDate.getTime() - createDate.getTime();
+      var runDate = Math.floor(dateLine / (1000 * 60 * 60 * 24));
+      runTime.innerHTML = runDate;
+    };
+    $(document).ready(function(){
+      blogRunTime();
+    });
+  </script>
+
+
+  <script type="text/javascript">
+    /*窗口监视*/
+    var originalTitle = document.title;
+    window.onblur = function(){document.title = "顺溜快回来！！！"};
+    window.onfocus = function(){document.title = originalTitle};
+  </script>
+
+
+
+    
+    
+        <!-- 腾讯统计 -->
+        <script>
+            var _mtac = {};
+            (function() {
+                var mta = document.createElement("script");
+                mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+                mta.setAttribute("name", "MTAH5");
+                mta.setAttribute("sid", "[object Object]");
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(mta, s);
+            })();
+        </script>
+    
+    
+    
+    
+
+
+
+
+</body>
+</html>
