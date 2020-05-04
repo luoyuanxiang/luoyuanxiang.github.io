@@ -44,7 +44,8 @@
 <!-- 自定义样式保持在最底部 -->
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="忆往惜" type="application/atom+xml">
+</head>
 
 
 <body>
@@ -203,7 +204,7 @@
       order: 'random',
       theme: '#b7daff',
       preload: 'none',
-      audio: [{"name":"月满弦","artist":"刘珂矣","url":"/songs/刘珂矣 - 月满弦.mp3","cover":"http://p1.music.126.net/SKujq5vqqv4KYOVFk7SiRA==/3407386538630284.jpg?param=130y130"}]
+      audio: [{"name":"月满弦","artist":"刘珂矣","url":"/songs/刘珂矣 - 月满弦.mp3","cover":"http://p1.music.126.net/SKujq5vqqv4KYOVFk7SiRA==/3407386538630284.jpg?param=130y130"},{"name":"湘浪别.inst","artist":"桑葚上的猴子","url":"/songs/桑葚上的猴子 - 湘浪别.inst.mp3","cover":"http://p2.music.126.net/PfVhpA0yT9bIWPuNGR4G2Q==/17731824021476086.jpg?param=130y130"},{"name":"落雪寻花——《魔道祖师》蓝忘机问情曲","artist":"颜糙糙","url":"/songs/颜糙糙 - 落雪寻花——《魔道祖师》蓝忘机问情曲.mp3","cover":"http://p2.music.126.net/5D772SPwIRcAmz3FDxDwNg==/109951163254756661.jpg?param=130y130"},{"name":"夜、萤火虫和你","artist":"AniFace","url":"/songs/AniFace - 夜、萤火虫和你.mp3","cover":"http://p1.music.126.net/VM7ZmBeI1B1eZzh7_z73JA==/109951163036196252.jpg?param=130y130"},{"name":"花火が瞬く夜に","artist":"羽肿","url":"/songs/羽肿 - 花火が瞬く夜に.mp3","cover":"http://p2.music.126.net/f7Nd9FSzVZMkTPWDW_rnOg==/736672800839982.jpg?param=130y130"}]
     });
   }
 </script>
@@ -228,7 +229,7 @@
             <i class="iconfont icon-love"></i>
           
           <span>系统稳定运行<span id="runtime"></span>天</span>
-              <span id="times">载入时分秒...</span>
+              <span id="times"></span>
         
       </div>
     
@@ -449,11 +450,11 @@
 
   <script type="text/javascript">
     /*显示博客运行时间*/
+    var nowDate = new Date();
     var blogRunTime = function () {
       var runTime = document.getElementById("runtime");
       var runtimeDate = "2019,11,06";
       var createDate = new Date(runtimeDate);
-      var nowDate = new Date();
       var dateLine = nowDate.getTime() - createDate.getTime();
       var runDate = Math.floor(dateLine / (1000 * 60 * 60 * 24));
       runTime.innerHTML = runDate;
@@ -461,6 +462,30 @@
     $(document).ready(function(){
       blogRunTime();
     });
+    function createtime(){
+      var runtimeDate = "2019,11,06";
+      var grt= new Date(runtimeDate);
+      nowDate.setTime(nowDate.getTime()+250);
+      days = (nowDate - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (nowDate - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+        hnum = "0" + hnum;
+      }
+      minutes = (nowDate - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+        mnum = "0" + mnum;
+      }
+      seconds = (nowDate - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+        snum = "0" + snum;
+      }
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+    }
+    setInterval("createtime()",250);
   </script>
 
 
@@ -475,34 +500,6 @@
 
 
 
-<script>
-    var now = new Date();
-    function createtime(){
-        var grt= new Date("11/06/2019 00:00:00");//此处修改你的建站时间或者网站上线时间
-        now.setTime(now.getTime()+250);
-        days = (now - grt ) / 1000 / 60 / 60 / 24;
-        dnum = Math.floor(days);
-        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
-        hnum = Math.floor(hours);
-        if(String(hnum).length ==1 ){
-            hnum = "0" + hnum;
-        }
-        minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
-        mnum = Math.floor(minutes);
-        if(String(mnum).length ==1 ){
-            mnum = "0" + mnum;
-        }
-        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
-        snum = Math.round(seconds);
-        if(String(snum).length ==1 ){
-            snum = "0" + snum;
-        }
-        // document.getElementById("timeDate").innerHTML = "本站安全运行&nbsp"+dnum+"&nbsp天";
-        document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
-    }
-    setInterval("createtime()",250);
-</script>
 
-
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

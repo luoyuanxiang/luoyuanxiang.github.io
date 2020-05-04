@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>忆往惜</title>
+  <icon>https://luoyuanxiangvip.com/icon.png</icon>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://luoyuanxiangvip.com/"/>
+  <updated>2020-03-23T08:17:12.117Z</updated>
+  <id>https://luoyuanxiangvip.com/</id>
+  
+  <author>
+    <name>忆往昔</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>spring boot+redis+shiro+jwt token无状态权限验证</title>
+    <link href="https://luoyuanxiangvip.com/2020/03/23/spring%20boot+redis+shiro+jwt%20token%E6%97%A0%E7%8A%B6%E6%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/"/>
+    <id>https://luoyuanxiangvip.com/2020/03/23/spring%20boot+redis+shiro+jwt%20token%E6%97%A0%E7%8A%B6%E6%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/</id>
+    <published>2020-03-23T07:31:06.000Z</published>
+    <updated>2020-03-23T08:17:12.117Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1562842253566.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;一、思路&quot;&gt;&lt;a href=&quot;#一、思路&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+      <category term="redis" scheme="https://luoyuanxiangvip.com/tags/redis/"/>
+    
+      <category term="spring boot" scheme="https://luoyuanxiangvip.com/tags/spring-boot/"/>
+    
+      <category term="shiro" scheme="https://luoyuanxiangvip.com/tags/shiro/"/>
+    
+      <category term="jwt" scheme="https://luoyuanxiangvip.com/tags/jwt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker命令学习</title>
+    <link href="https://luoyuanxiangvip.com/2019/12/11/docker%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://luoyuanxiangvip.com/2019/12/11/docker%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0/</id>
+    <published>2019-12-11T08:03:09.000Z</published>
+    <updated>2020-05-02T04:25:29.981Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/index.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;index&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;docker命令&quot;&gt;&lt;a href=&quot;#docker命令&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="闲言碎语" scheme="https://luoyuanxiangvip.com/categories/%E9%97%B2%E8%A8%80%E7%A2%8E%E8%AF%AD/"/>
+    
+    
+      <category term="docker" scheme="https://luoyuanxiangvip.com/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java之基础学习（八）多线程</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/15/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AB%EF%BC%89%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/15/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AB%EF%BC%89%E5%A4%9A%E7%BA%BF%E7%A8%8B/</id>
+    <published>2019-11-15T05:42:09.000Z</published>
+    <updated>2019-11-19T08:43:00.238Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1562842253566.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;多线程&quot;&gt;&lt;a href=&quot;#多线程&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java之基础学习（七）异常</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E5%BC%82%E5%B8%B8/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%83%EF%BC%89%E5%BC%82%E5%B8%B8/</id>
+    <published>2019-11-14T03:08:16.000Z</published>
+    <updated>2019-11-15T06:34:31.331Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1573632593161.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;6.jpg&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;异-常&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java之基础学习（六）多态</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E5%A4%9A%E6%80%81/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/14/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89%E5%A4%9A%E6%80%81/</id>
+    <published>2019-11-14T02:52:28.000Z</published>
+    <updated>2019-11-15T06:47:32.519Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1562841221937.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;6.jpg&quot;&gt;&lt;/p&gt;
+&lt;h3
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java之基础学习（五）接 口</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89%E6%8E%A5%20%E5%8F%A3/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%94%EF%BC%89%E6%8E%A5%20%E5%8F%A3/</id>
+    <published>2019-11-13T08:48:18.000Z</published>
+    <updated>2019-11-15T06:15:29.311Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1573632602441.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;接-口&quot;&gt;&lt;a href=&quot;#接-口&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java之基础学习（四）抽象类 abstract</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89%E6%8A%BD%E8%B1%A1%E7%B1%BB%20abstract/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89%E6%8A%BD%E8%B1%A1%E7%B1%BB%20abstract/</id>
+    <published>2019-11-13T08:29:53.000Z</published>
+    <updated>2020-05-02T04:19:14.476Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/images/1.jpeg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;抽象类-abstract&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java之基础学习（三）面向对象</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</id>
+    <published>2019-11-13T07:32:50.000Z</published>
+    <updated>2019-11-15T06:47:32.525Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1573632407156.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;6.jpg&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;面向对象：&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java之基础学习（二）java语法基础</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89java%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89java%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/</id>
+    <published>2019-11-13T07:24:37.000Z</published>
+    <updated>2019-11-15T06:47:32.508Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1573632308687.jpg&quot; srcset=&quot;/img/loading.gif&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java之基础学习（一）Java概述</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89Java%E6%A6%82%E8%BF%B0/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/13/java%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89Java%E6%A6%82%E8%BF%B0/</id>
+    <published>2019-11-13T07:14:11.000Z</published>
+    <updated>2019-11-13T09:05:55.409Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1573632256274.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;1.jpg&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;写代码：&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring boot 配置多环境logback-spring.xml</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/13/spring%20boot%20%E9%85%8D%E7%BD%AE%E5%A4%9A%E7%8E%AF%E5%A2%83logback-spring.xml/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/13/spring%20boot%20%E9%85%8D%E7%BD%AE%E5%A4%9A%E7%8E%AF%E5%A2%83logback-spring.xml/</id>
+    <published>2019-11-13T01:47:18.000Z</published>
+    <updated>2019-11-13T09:07:04.676Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;/img/1.jpeg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;记录一下spring boot 配置日志记录：&lt;/p&gt;
+&lt;p&gt;在SpringBoot新建
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+      <category term="spring boot" scheme="https://luoyuanxiangvip.com/tags/spring-boot/"/>
+    
+      <category term="logback" scheme="https://luoyuanxiangvip.com/tags/logback/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring的@Transactional注解详细用法</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/spring%E7%9A%84@Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E7%BB%86%E7%94%A8%E6%B3%95/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/spring%E7%9A%84@Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E7%BB%86%E7%94%A8%E6%B3%95/</id>
+    <published>2019-11-06T04:12:15.000Z</published>
+    <updated>2019-11-13T09:08:07.822Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1561431519943.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="spring boot" scheme="https://luoyuanxiangvip.com/tags/spring-boot/"/>
+    
+      <category term="spring" scheme="https://luoyuanxiangvip.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>记一次spring boot整合shiro、jwt实现前后端分离</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/%E8%AE%B0%E4%B8%80%E6%AC%A1spring%20boot%E6%95%B4%E5%90%88shiro%E3%80%81jwt%E5%AE%9E%E7%8E%B0%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/%E8%AE%B0%E4%B8%80%E6%AC%A1spring%20boot%E6%95%B4%E5%90%88shiro%E3%80%81jwt%E5%AE%9E%E7%8E%B0%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/</id>
+    <published>2019-11-06T04:10:40.000Z</published>
+    <updated>2019-11-13T09:08:40.352Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1561433183670.jpg&quot; srcset=&quot;/img/loading.gif&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="spring boot" scheme="https://luoyuanxiangvip.com/tags/spring-boot/"/>
+    
+      <category term="shiro" scheme="https://luoyuanxiangvip.com/tags/shiro/"/>
+    
+      <category term="jwt" scheme="https://luoyuanxiangvip.com/tags/jwt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>35 个 Java 代码性能优化总结</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/35%20%E4%B8%AA%20Java%20%E4%BB%A3%E7%A0%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%80%BB%E7%BB%93/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/35%20%E4%B8%AA%20Java%20%E4%BB%A3%E7%A0%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%80%BB%E7%BB%93/</id>
+    <published>2019-11-06T04:09:01.000Z</published>
+    <updated>2020-05-02T04:25:29.976Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1562842253566.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="闲言碎语" scheme="https://luoyuanxiangvip.com/categories/%E9%97%B2%E8%A8%80%E7%A2%8E%E8%AF%AD/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis五种数据结构简介</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/Redis%E4%BA%94%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%80%E4%BB%8B/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/Redis%E4%BA%94%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%80%E4%BB%8B/</id>
+    <published>2019-11-06T04:07:54.000Z</published>
+    <updated>2019-11-13T09:07:04.662Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1562842253566.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;封面&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Redis五种结构&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="redis" scheme="https://luoyuanxiangvip.com/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring事务的基本原理、传播属性、隔离级别</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/Spring%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E3%80%81%E4%BC%A0%E6%92%AD%E5%B1%9E%E6%80%A7%E3%80%81%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/Spring%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E3%80%81%E4%BC%A0%E6%92%AD%E5%B1%9E%E6%80%A7%E3%80%81%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</id>
+    <published>2019-11-06T04:06:27.000Z</published>
+    <updated>2019-11-13T09:07:44.918Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1562935835183.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;事务&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;一、事务的基本要素（ACID）&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+      <category term="spring boot" scheme="https://luoyuanxiangvip.com/tags/spring-boot/"/>
+    
+      <category term="spring" scheme="https://luoyuanxiangvip.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL优化</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/SQL%E4%BC%98%E5%8C%96/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/SQL%E4%BC%98%E5%8C%96/</id>
+    <published>2019-11-06T04:05:30.000Z</published>
+    <updated>2019-11-13T09:08:07.810Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1563243777509.jpg&quot; srcset=&quot;/img/loading.gif&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="sql" scheme="https://luoyuanxiangvip.com/tags/sql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java并发编程了解一下</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8B/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8B/</id>
+    <published>2019-11-06T04:04:28.000Z</published>
+    <updated>2019-11-13T09:06:40.635Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1563332775154.jpg&quot; srcset=&quot;/img/loading.gif&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java多线程之悲观锁与乐观锁</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%82%B2%E8%A7%82%E9%94%81%E4%B8%8E%E4%B9%90%E8%A7%82%E9%94%81/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%82%B2%E8%A7%82%E9%94%81%E4%B8%8E%E4%B9%90%E8%A7%82%E9%94%81/</id>
+    <published>2019-11-06T03:43:18.000Z</published>
+    <updated>2019-11-13T09:06:40.664Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/blogImg/1564623549502.jpg&quot; srcset=&quot;/img/loading.gif&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="后端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="java" scheme="https://luoyuanxiangvip.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue-element-ui整合editor.md编辑器</title>
+    <link href="https://luoyuanxiangvip.com/2019/11/06/vue-element-ui%E6%95%B4%E5%90%88editor-md%E7%BC%96%E8%BE%91%E5%99%A8/"/>
+    <id>https://luoyuanxiangvip.com/2019/11/06/vue-element-ui%E6%95%B4%E5%90%88editor-md%E7%BC%96%E8%BE%91%E5%99%A8/</id>
+    <published>2019-11-06T03:42:28.000Z</published>
+    <updated>2019-11-13T09:08:22.998Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://img.luoyuanxiangvip.com/category/think.jpg&quot; srcset=&quot;/img/loading.gif&quot; alt=&quot;封面&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="前端技术" scheme="https://luoyuanxiangvip.com/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="js" scheme="https://luoyuanxiangvip.com/tags/js/"/>
+    
+      <category term="vue" scheme="https://luoyuanxiangvip.com/tags/vue/"/>
+    
+      <category term="element ui" scheme="https://luoyuanxiangvip.com/tags/element-ui/"/>
+    
+  </entry>
+  
+</feed>
