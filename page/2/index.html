@@ -199,9 +199,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/java/">java</a>
-            
               <a href="/tags/spring-boot/">spring boot</a>
+            
+              <a href="/tags/java/">java</a>
             
               <a href="/tags/logback/">logback</a>
             
@@ -461,11 +461,11 @@ Redis五种结构1、String可以是字符串，整数或者浮点数，对整�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/java/">java</a>
-            
               <a href="/tags/spring-boot/">spring boot</a>
             
               <a href="/tags/spring/">spring</a>
+            
+              <a href="/tags/java/">java</a>
             
           </div>
         
@@ -785,6 +785,7 @@ impor</div>
             <i class="iconfont icon-love"></i>
           
           <span>系统稳定运行<span id="runtime"></span>天</span>
+              <span id="times">载入时分秒...</span>
         
       </div>
     
@@ -1030,6 +1031,34 @@ impor</div>
 
 
 
+
+<script>
+    var now = new Date();
+    function createtime(){
+        var grt= new Date("11/06/2019 00:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if(String(mnum).length ==1 ){
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if(String(snum).length ==1 ){
+            snum = "0" + snum;
+        }
+        // document.getElementById("timeDate").innerHTML = "本站安全运行&nbsp"+dnum+"&nbsp天";
+        document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+    }
+    setInterval("createtime()",250);
+</script>
 
 
 </body>
